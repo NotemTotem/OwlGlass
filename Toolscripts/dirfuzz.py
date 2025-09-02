@@ -2,6 +2,36 @@ import socket
 import threading
 import argparse
 
+#parse a response to find the location of a rediret
+def locate_redirect(response):
+    #split the response into lines so we can find the location header
+    lines = response.split(b'\r\n')
+    for line in lines:
+        #find location header and store the redirect location
+        if line[:10] == b"Location: ":
+            location = line[10:].decode("UTF-8")
+            #split location so we can seperate host path and port from the url
+            location_split = location.split('/', 3)
+
+            path = location_split[3]
+
+            #if a port is specified we have to define a host and a port
+            if ":" in location_split[2]:
+                #split it into host and port
+                host_and_port = location_split[2].split(":")
+
+                host = host_and_port[0]
+                port = int(host_and_port[1])
+            #if not use port 80
+            else:
+                host = location_split[2]
+                port = 80
+
+            print(f"Redirected to {location}")
+
+            return host, path, port
+
+#fuzz a path to find error code
 def fuzz_dir(host, path, port, recursion_count):
     try:
         #create a socket to connect to port
@@ -27,37 +57,14 @@ def fuzz_dir(host, path, port, recursion_count):
                 print(f"\n{host}/{path} - {code}")
             #redirect codes we will follow the redirect
             if code in range(300, 400) and FOLLOW_REDIRECTS and recursion_count <= MAX_RECURSION:
-                #split the response into lines so we can find the location header
-                response_array = response.split(b'\r\n')
-                for line in response_array:
-                    #find location header and store the redirect location
-                    if line[:10] == b"Location: ":
-                        print("LOCATION FOUND")
-                        location = line[10:].decode("UTF-8")
-                        #split location so we can seperate host path and port from the url
-                        locationsplit = location.split('/', 3)
+                #parse response to find where to redirect
+                redirect_host, redirect_path, redirect_port = locate_redirect(response)
 
-                        redirect_path = locationsplit[3]
+                #recursivley follow redirects
+                fuzz_dir(redirect_host, redirect_path, redirect_port, recursion_count+1)
 
-                        redirect_host_port = locationsplit[2]
-                        #if a port is specified we split it into the host and the port
-                        if ":" in redirect_host_port:
-                            redirect_host = redirect_host_port.split(":")[0]
-                            redirect_port = int(redirect_host_port.split(":")[1])
-                        #if no port use port 80
-                        else:
-                            redirect_port = 80
-                            redirect_host = redirect_host_port
-
-                        print(f"Redirected to {location}")
-
-                        #recursivley follow redirects
-                        fuzz_dir(redirect_host, redirect_path, redirect_port, recursion_count+1)
-
-                        #break so we dont continue the loop after we found the location header
-                        break
             elif recursion_count > MAX_RECURSION:
-                print("Max recusions reached: Stopping at path\n\n")
+                print("Max recusions reached: Stopping at path")
 
     #error handling prevents crashing
     except socket.error as err:
