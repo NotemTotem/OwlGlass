@@ -1,9 +1,6 @@
 import socket
 import threading
-
-TIMEOUT = 3
-PORTS = sorted(range(0, 65535))
-HOST = "ourhomelocal.duckdns.org"
+import argparse
 
 #dictionary of ports and common services and the requests that will make the service send a banner response
 #"common port":["common service", "request to get banner"]
@@ -40,12 +37,10 @@ PORT_PROBE_DICTIONARY = {
     5986: ["WinRM (HTTPS)", b"GET /wsman HTTP/1.1\r\n\r\n"]
 }
 
-#define blank array so threads can store scan results in order
-results = [None] * len(PORTS)
-
+#guess the service and the required probe to find banner
 def grab_banner(s, port):
     #send a request that will probe a banner response
-    s.sendall(PORT_PROBE_DICTIONARY.get(port)[1])
+    s.sendall(PORT_PROBE_DICTIONARY.get(port)[1]) #[1] is the banner probe
 
     try:
         #try to grab banner
@@ -59,7 +54,7 @@ def grab_banner(s, port):
         output = f"\n - Failed To Grab Banner: {err}"
 
         #search for port in dictionary to provide a guess at the service
-        service_guess = PORT_PROBE_DICTIONARY.get(port)[0]
+        service_guess = PORT_PROBE_DICTIONARY.get(port)[0] #[0] is the service name
         if service_guess:
             output += f"\n - Possibly {service_guess}"
         else:
@@ -67,14 +62,14 @@ def grab_banner(s, port):
 
     return output
 
-def scan_port(host, port):
+def scan_port(address, port):
     try:
         #create a socket to connect to port
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(TIMEOUT)
             #connect to port
             #connect_ex() returns an integer value that tells about the connection 0 = succesful, other values indicate error codes
-            open = s.connect_ex((host, port))
+            open = s.connect_ex((address, port))
 
             #if connection succeeds
             if open == 0:
@@ -89,20 +84,55 @@ def scan_port(host, port):
     except Exception as err:
         print(f"Error occured while scanning port: {port}\n {err}\n\n")\
 
-#list to reference each thread
-threads = []
-#start a thread for each port
-for port in PORTS:
-    t = threading.Thread(target=scan_port, args=[HOST, port])
-    #add threads to a list so we can iterate them later
-    threads.append(t)
-    t.start()
 
-#wait for threads to finish before continuing
-for t in threads:
-    t.join()
+def main():
+    #take arguments from command flags to define static variables
+    parser = argparse.ArgumentParser()
 
-#print results
-for result in results:
-    if result:
-        print(result)
+    parser.add_argument("-a", help="Target address")
+    parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
+    parser.add_argument("-p", default="0-999", help="Port(s) to scan (default: 0-999). Examples: 22,80,443 or 20-30")
+
+    #parge arguments
+    args = parser.parse_args()
+
+    #set static variables
+    global TIMEOUT
+    ADDRESS = args.a
+    TIMEOUT = args.t
+
+    #Parse ports for single values, lists, or ranges
+    global PORTS
+    PORTS = []
+    for part in args.p.split(","):
+        if "-" in part:
+            start, end = part.split("-")
+            PORTS.extend(range(int(start), int(end) + 1))
+        else:
+            PORTS.append(int(part))
+    PORTS = sorted(set(PORTS))
+
+    #define blank array so threads can store scan results in order of port
+    global results
+    results = [None] * len(PORTS)
+
+    #list to reference each thread
+    threads = []
+    #start a thread for each port
+    for port in PORTS:
+        t = threading.Thread(target=scan_port, args=[ADDRESS, port])
+        #add threads to a list so we can iterate them later
+        threads.append(t)
+        t.start()
+
+    #wait for threads to finish before continuing
+    for t in threads:
+        t.join()
+
+    #print results
+    for result in results:
+        if result:
+            print(result)
+
+if __name__ == "__main__":
+    main()

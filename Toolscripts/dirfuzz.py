@@ -1,12 +1,6 @@
 import socket
 import threading
-
-HOST = "youtube.com"
-WORDLIST = open("common.txt")
-PORT = 80
-TIMEOUT = 3
-FOLLOW_REDIRECTS = True
-MAX_RECURSION = 2
+import argparse
 
 def fuzz_dir(host, path, port, recursion_count):
     try:
@@ -71,11 +65,39 @@ def fuzz_dir(host, path, port, recursion_count):
     except Exception as err:
         print(f"Error occured while fuzzing dir: {path}\n {err}\n\n")\
 
-#list to reference each thread
-threads = []
-#start a thread for each port
-for word in WORDLIST:
-    t = threading.Thread(target=fuzz_dir, args=[HOST, word, PORT, 0])
-    #add threads to a list so we can iterate them later
-    threads.append(t)
-    t.start()
+def main():
+    #take arguments from command flags to define static variables
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-u", help="Target URL")
+    parser.add_argument("-w", default="../static/resources/wordlists/common.txt", help="Path to wordlist file (default: static/resources/wordlists/common.txt)")
+    parser.add_argument("-p", type=int, default=80, help="Port number (default: 80)")
+    parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
+    parser.add_argument("-r", action="store_true", help="Follow HTTP redirects (default: False)")
+    parser.add_argument("-d", type=int, default=2, help="Maximum recursion depth (default: 2)")
+
+    #parge arguments
+    args = parser.parse_args()
+
+    #set static variables
+    global MAX_RECURSION
+    global TIMEOUT
+    global FOLLOW_REDIRECTS
+    HOST = args.u
+    WORDLIST = open(args.w)
+    PORT = args.p
+    TIMEOUT = args.t
+    FOLLOW_REDIRECTS = args.r
+    MAX_RECURSION = args.d
+
+    #list to reference each thread
+    threads = []
+    #start a thread for each port
+    for word in WORDLIST:
+        t = threading.Thread(target=fuzz_dir, args=[HOST, word, PORT, 0])
+        #add threads to a list so we can iterate them later
+        threads.append(t)
+        t.start()
+
+if __name__ == "__main__":
+    main()
