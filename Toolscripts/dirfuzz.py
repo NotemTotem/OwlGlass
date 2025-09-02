@@ -23,10 +23,10 @@ def fuzz_dir(host, path, port, recursion_count):
             #filter response for the HTTP code
             code = int(response[9:12])
             #not found code gets filtered out
-            if code < 400 or code >= 500:
+            if code not in range(400, 500):
                 print(f"\n{host}/{path} - {code}")
             #redirect codes we will follow the redirect
-            if code >= 300 and code < 400 and FOLLOW_REDIRECTS and MAX_RECURSION <= recursion_count:
+            if code in range(300, 400) and FOLLOW_REDIRECTS and recursion_count <= MAX_RECURSION:
                 #split the response into lines so we can find the location header
                 response_array = response.split(b'\r\n')
                 for line in response_array:
@@ -52,12 +52,12 @@ def fuzz_dir(host, path, port, recursion_count):
                         print(f"Redirected to {location}")
 
                         #recursivley follow redirects
-                        fuzz_dir(redirect_host, redirect_path, redirect_port, n+1)
+                        fuzz_dir(redirect_host, redirect_path, redirect_port, recursion_count+1)
 
                         #break so we dont continue the loop after we found the location header
                         break
-            elif recursion_count > 10:
-                print("Max recusions reached: Stopping at path")
+            elif recursion_count > MAX_RECURSION:
+                print("Max recusions reached: Stopping at path\n\n")
 
     #error handling prevents crashing
     except socket.error as err:
