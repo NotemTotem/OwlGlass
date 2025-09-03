@@ -1,7 +1,7 @@
 [project]
 name = "owlglass"
 version = "0.1"
-dependencies = []
+dependencies = ["requests"]
 
 [build-system]
 requires = ["setuptools>=75.8.0"]
