@@ -2,6 +2,17 @@ import socket
 import threading
 import argparse
 
+def chunked_recv(s):
+    #recieve response in chunks until the end of the headers, to save time and memory
+    response = b""
+    while b"\r\n\r\n" not in response:
+        chunk = s.recv(256)
+        if not chunk:
+            break
+        response += chunk
+
+    return response
+
 #parse a response to find the location of a rediret
 def locate_redirect(response):
     #split the response into lines so we can find the location header
@@ -13,7 +24,10 @@ def locate_redirect(response):
             #split location so we can seperate host path and port from the url
             location_split = location.split('/', 3)
 
-            path = location_split[3]
+            if len(location_split) > 3:
+                path = location_split[3]
+            else:
+                path = ""
 
             #if a port is specified we have to define a host and a port
             if ":" in location_split[2]:
@@ -42,11 +56,11 @@ def fuzz_sub(host, subdomain, port, recursion_count):
             full_url = subdomain+"."+host
 
             #connect to port
-            open = s.connect((full_url, port))
+            s.connect((full_url, port))
 
             #send get request to recieve a response
             s.sendall("GET / HTTP/1.0\r\n\r\n".encode())
-            response = s.recv(512)
+            response = chunked_recv(s)
 
             if response:
                 code = int(response[9:12])
@@ -77,14 +91,13 @@ def fuzz_dir(host, path, port, recursion_count):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(TIMEOUT)
             #connect to port
-            open = s.connect((host, port))
+            s.connect((host, port))
 
             path = path.strip("\r\n")
 
             #send get request for path
             s.sendall(f"GET /{path} HTTP/1.0\r\n\r\n".encode())
-            response = s.recv(512)
-
+            response = chunked_recv(s)
 
             if not response:
                 print(" - Server did not supply a response")
@@ -137,6 +150,7 @@ def main():
         threads.append(t)
         t.start()
 
+    WORDLIST.close()
 #take arguments from command flags to define static variables
 parser = argparse.ArgumentParser()
 

@@ -39,17 +39,27 @@ PORT_PROBE_DICTIONARY = {
 
 #guess the service and the required probe to find banner
 def grab_banner(s, port):
-    #send a request that will probe a banner response
-    s.sendall(PORT_PROBE_DICTIONARY.get(port)[1]) #[1] is the banner probe
+    #if there is a known probe then send a request that will probe a banner response
+    if PORT_PROBE_DICTIONARY.get(port):
+        s.sendall(PORT_PROBE_DICTIONARY.get(port)[1]) #[1] is the banner probe
 
     try:
-        #try to grab banner
-        banner = s.recv(256).decode()
+        #try to grab banner in chunks
+        banner = b""
+        while len(banner) < 4096:
+            try:
+                chunk = s.recv(64)
+                if not chunk:
+                    break
+                banner += chunk
+            except socket.timeout:
+                break
+
         if banner:
             output = f"\n - Banner:\n{banner}"
         else:
             raise Exception("Banner returned Null")
-    #either timeout or null banner
+
     except Exception as err:
         output = f"\n - Failed To Grab Banner: {err}"
 
@@ -95,6 +105,10 @@ def main():
             PORTS.append(int(part))
     PORTS = sorted(set(PORTS))
 
+    #define blank array so threads can store scan results in order of port
+    global results
+    results = [None] * len(PORTS)
+
     #list to reference each thread
     threads = []
     #start a thread for each port
@@ -127,9 +141,6 @@ args = parser.parse_args()
 ADDRESS = args.a
 TIMEOUT = args.t
 PORTS = []
-
-#define blank array so threads can store scan results in order of port
-results = [None] * len(PORTS)
 
 if __name__ == "__main__":
     main()
