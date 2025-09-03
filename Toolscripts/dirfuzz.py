@@ -112,31 +112,6 @@ def fuzz_dir(host, path, port, recursion_count):
         print(f"Error occured while fuzzing dir: {path}\n {err}\n\n")
 
 def main():
-    #take arguments from command flags to define static variables
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument("-u", help="Target URL")
-    parser.add_argument("-w", help="Path to wordlist file (default: OwlGlass/static/resources/wordlists/paths.txt)")
-    parser.add_argument("-p", type=int, default=80, help="Port number (default: 80)")
-    parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
-    parser.add_argument("-r", action="store_true", help="Follow HTTP redirects (default: False)")
-    parser.add_argument("-d", type=int, default=2, help="Maximum recursion depth (default: 2)")
-    parser.add_argument("--subdomain", action="store_true", help="Fuzz for subdomains not directories (default: False)\n    - switches default wordlist to OwlGlass/static/resources/wordlists/subdomains.txt")
-
-    #parge arguments
-    args = parser.parse_args()
-
-    #set static variables
-    global MAX_RECURSION
-    global TIMEOUT
-    global FOLLOW_REDIRECTS
-    HOST = args.u
-    PORT = args.p
-    TIMEOUT = args.t
-    FOLLOW_REDIRECTS = args.r
-    MAX_RECURSION = args.d
-    SUBDOMAIN_MODE = args.subdomain
-
     #if a wordlist was specified
     if args.w:
         #open wordlist
@@ -161,6 +136,28 @@ def main():
         #add threads to a list so we can iterate them later
         threads.append(t)
         t.start()
+
+#take arguments from command flags to define static variables
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-u", help="Target URL")
+parser.add_argument("-w", help="Path to wordlist file (default: OwlGlass/static/resources/wordlists/paths.txt)")
+parser.add_argument("-p", type=int, default=80, help="Port number (default: 80)")
+parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
+parser.add_argument("-r", action="store_true", help="Follow HTTP redirects (default: False)")
+parser.add_argument("-d", type=int, default=2, help="Maximum recursion depth (default: 2)")
+parser.add_argument("--subdomain", action="store_true", help="Fuzz for subdomains not directories (default: False)\n    - switches default wordlist to OwlGlass/static/resources/wordlists/subdomains.txt")
+
+#parge arguments
+args = parser.parse_args()
+
+#set static variables
+HOST = args.u
+PORT = args.p
+TIMEOUT = args.t
+FOLLOW_REDIRECTS = args.r
+MAX_RECURSION = args.d
+SUBDOMAIN_MODE = args.subdomain
 
 if __name__ == "__main__":
     main()

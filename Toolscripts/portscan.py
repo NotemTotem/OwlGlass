@@ -86,24 +86,7 @@ def scan_port(address, port):
 
 
 def main():
-    #take arguments from command flags to define static variables
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument("-a", help="Target address")
-    parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
-    parser.add_argument("-p", default="0-999", help="Port(s) to scan (default: 0-999). Examples: 22,80,443 or 20-30")
-
-    #parge arguments
-    args = parser.parse_args()
-
-    #set static variables
-    global TIMEOUT
-    ADDRESS = args.a
-    TIMEOUT = args.t
-
-    #Parse ports for single values, lists, or ranges
-    global PORTS
-    PORTS = []
+    #Parse ports argument for single values, lists, or ranges
     for part in args.p.split(","):
         if "-" in part:
             start, end = part.split("-")
@@ -111,10 +94,6 @@ def main():
         else:
             PORTS.append(int(part))
     PORTS = sorted(set(PORTS))
-
-    #define blank array so threads can store scan results in order of port
-    global results
-    results = [None] * len(PORTS)
 
     #list to reference each thread
     threads = []
@@ -133,6 +112,24 @@ def main():
     for result in results:
         if result:
             print(result)
+
+#take arguments from command flags to define static variables
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-a", help="Target address")
+parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
+parser.add_argument("-p", default="0-999", help="Port(s) to scan (default: 0-999). Examples: 22,80,443 or 20-30")
+
+#parse arguments
+args = parser.parse_args()
+
+#set static variables
+ADDRESS = args.a
+TIMEOUT = args.t
+PORTS = []
+
+#define blank array so threads can store scan results in order of port
+results = [None] * len(PORTS)
 
 if __name__ == "__main__":
     main()
