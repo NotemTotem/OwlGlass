@@ -2,7 +2,6 @@ import argparse
 import sys
 import requests
 
-#In future websites will be stored in data.json 
 class WebsiteManager:
     def __init__(self):
         """
@@ -43,7 +42,7 @@ websitemanager = WebsiteManager()
 
 def web_check(target_object,web_object):
     if target_object["targetType"] == 'email':
-        target = target_object["targetSplit"][1]
+        target = target_object["username"]
     elif target_object["targetType"] == 'username':
         target = target_object["target"]
     else:
@@ -52,25 +51,29 @@ def web_check(target_object,web_object):
     url = web_object['url'].replace('<target>',target)
 
     if web_object['errorType'] == 'status_code':
-        r = requests.get(url)
+        r = requests.get('https://'+url)
         if r.status_code == 200:
-            return True
+            return True,url
         else:
-            return False
+            return False,url
     else:
         parser.error("status_code of {s!r}" % f'{web_object["status_code"]} not currently implemented.')
 def main():
 
+
     if args.e:
         target_object = {
             'target':args.e,
-            'targetSplit':args.e.split('@'),
+            'targetSplit':args.e[0].split('@'),
+            'username':args.e[0].split('@')[0],
+            'domain':args.e[0].split('@')[1],
             'targetType':'email'
         }
+        print(target_object['username'])
     elif args.u:
         target_object = {
-            'target':args.u,
-            'target_type':'username'
+            'target':args.u[0],
+            'targetType':'username'
         }
     if not args.w:
         WEBSITES = websitemanager.web_objects       
@@ -79,10 +82,25 @@ def main():
         DEVELOPMENT_ENV = True
     
     print("Enumerating through websites")
+    report = {
+        'target':target_object,
+        'checks':[]
+    }
     for index, key in enumerate(WEBSITES.keys()):
         print(f"Index:{index}, Key:{key}")
         print(WEBSITES[key])
-        response = web_check(target_object,WEBSITES[key])
+        response,attempted_url = web_check(target_object,WEBSITES[key])
+
+        report_entry = {
+            'website':WEBSITES[key],
+            'accountFound':response,
+            'attemptedUrl':attempted_url
+        }
+        report.update({'checks':report['checks'].append(report_entry)})
+    
+    print(f'FINAL REPORT; {report}')
+
+    
 
 parser.add_argument('-u',action='append',help='Username to find accounts under (required if email not specified)')
 parser.add_argument('-e',action='append',help='Email to find accounts under (required if username not specified)')
