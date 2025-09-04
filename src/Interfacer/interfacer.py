@@ -1,5 +1,5 @@
 import os
-command = '''.venv\Scripts\python.exe "Toolscripts\\accountfinder.py" -e "jaydenoooo@icloud.com"'''
+command = '''.venv\\Scripts\\python.exe "Toolscripts\\accountfinder.py" -e "jaydenoooo@icloud.com" --json --development'''
 
 e = os.popen(command)
 output = e.readlines()

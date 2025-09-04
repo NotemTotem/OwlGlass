@@ -2,8 +2,8 @@ import argparse
 import sys
 import requests
 
-DEVELOPMENT = '--development' in sys.argv
-
+DEVELOPMENT = '--development' in sys.argv and not '--json' in sys.argv
+JSON_ONLY = '--json' in sys.argv
 
 class WebsiteManager:
     def __init__(self):
@@ -102,19 +102,24 @@ def main():
         }
         
         report['checks'].append(report_entry)
-    print('\n'+'-'*30)
-    print(f'\nFINAL REPORT\n')
-    print('-'*30)
-    print(f"\n - USER INFO - ")
-    print(f"Target string: '{report['target']['target']}'\nTarget type: {report['target']['targetType']}")
-    print(f"\n - WEBSITES CHECKED - ")
-    for website in report['checks']:
-        print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
+    
+    if JSON_ONLY:
+        pass
+    else:
+        print('\n'+'-'*30)
+        print(f'\nFINAL REPORT\n')
+        print('-'*30)
+        print(f"\n - USER INFO - ")
+        print(f"Target string: '{report['target']['target']}'\nTarget type: {report['target']['targetType']}")
+        print(f"\n - WEBSITES CHECKED - ")
+        for website in report['checks']:
+            print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
 
 parser.add_argument('-u',action='append',help='Username to find accounts under (required if email not specified)')
 parser.add_argument('-e',action='append',help='Email to find accounts under (required if username not specified)')
 parser.add_argument('-w',help="The website(s) to check. comma-seperated (default: all)")
 parser.add_argument('--development',action='store_true',help="Provides additional debugging information during runtime (default: true)")
+parser.add_argument('--json',action='store_true',help="Provides additional debugging information during runtime (default: true)")
 
 if len(sys.argv)==1:
     parser.print_help(sys.stderr)

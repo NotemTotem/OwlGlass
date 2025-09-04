@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='default_images/owlglass_logo.svg')}}"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Owlglass{% endblock%} - Owlglass</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    {% block content %}
+    {% endblock content %}
+    <script src="index.js"></script>
+  </body>
+</html>
