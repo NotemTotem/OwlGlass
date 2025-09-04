@@ -2,6 +2,9 @@ import argparse
 import sys
 import requests
 
+DEVELOPMENT = '--development' in sys.argv
+
+
 class WebsiteManager:
     def __init__(self):
         """
@@ -36,6 +39,9 @@ class MyParser(argparse.ArgumentParser):
         sys.exit(2)
     def warning(self,message):
         sys.stderr.write('warning: %s\n' % message)
+    def debug_print(self,message):
+        if DEVELOPMENT:
+            sys.stderr.write('debug: %s\n' % message)
 parser = MyParser()
 websitemanager = WebsiteManager()
 
@@ -51,7 +57,10 @@ def web_check(target_object,web_object):
     url = web_object['url'].replace('<target>',target)
 
     if web_object['errorType'] == 'status_code':
-        r = requests.get('https://'+url)
+        try:
+            r = requests.get('https://'+url)
+        except Exception as e:
+            parser.error(e)
         if r.status_code == 200:
             return True,url
         else:
@@ -69,7 +78,6 @@ def main():
             'domain':args.e[0].split('@')[1],
             'targetType':'email'
         }
-        print(target_object['username'])
     elif args.u:
         target_object = {
             'target':args.u[0],
@@ -78,17 +86,13 @@ def main():
     if not args.w:
         WEBSITES = websitemanager.web_objects       
     
-    if args.development:
-        DEVELOPMENT_ENV = True
-    
-    print("Enumerating through websites")
     report = {
         'target':target_object,
         'checks':[]
     }
     for index, key in enumerate(WEBSITES.keys()):
-        print(f"Index:{index}, Key:{key}")
-        print(WEBSITES[key])
+        parser.debug_print(f"Index:{index}, Key:{key}")
+        parser.debug_print(WEBSITES[key])
         response,attempted_url = web_check(target_object,WEBSITES[key])
 
         report_entry = {
@@ -96,22 +100,28 @@ def main():
             'accountFound':response,
             'attemptedUrl':attempted_url
         }
-        report.update({'checks':report['checks'].append(report_entry)})
-    
-    print(f'FINAL REPORT; {report}')
-
-    
+        
+        report['checks'].append(report_entry)
+    print('\n'+'-'*30)
+    print(f'\nFINAL REPORT\n')
+    print('-'*30)
+    print(f"\n - USER INFO - ")
+    print(f"Target string: '{report['target']['target']}'\nTarget type: {report['target']['targetType']}")
+    print(f"\n - WEBSITES CHECKED - ")
+    for website in report['checks']:
+        print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
 
 parser.add_argument('-u',action='append',help='Username to find accounts under (required if email not specified)')
 parser.add_argument('-e',action='append',help='Email to find accounts under (required if username not specified)')
 parser.add_argument('-w',help="The website(s) to check. comma-seperated (default: all)")
 parser.add_argument('--development',action='store_true',help="Provides additional debugging information during runtime (default: true)")
+
 if len(sys.argv)==1:
     parser.print_help(sys.stderr)
     sys.exit(1)
 
 args = parser.parse_args()
-print(args)
+
 if args.e and args.u:
     parser.error("Please specify EITHER an email OR username")
 
@@ -120,7 +130,6 @@ if args.e and len(args.e) >1 or args.u and len(args.u) >1:
 
 if not args.e and not args.u:
     parser.error('Please specify an email or username using -e or -u ')
-
 
 
 if __name__ == "__main__":
