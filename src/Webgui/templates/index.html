@@ -9,6 +9,7 @@
         </section>
 
         <form>
+            {{form.hidden_tag()}}
             <p>Email</p>
             <input type="email">
             <br>
@@ -16,10 +17,14 @@
             <p>Username</p>
             <input type="text">
             <br>
-            <button type="Submit">
+            <button type="Submit" hx-post="/toolscripts/accountfinder",hx-target="#Output">
                 Submit
             </button> 
         </form>
+        <h2>Output</h2>
+        <div id="Output">
+
+        </div>
     </div>
 </div>
 
