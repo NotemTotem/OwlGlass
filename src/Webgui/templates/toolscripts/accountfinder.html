@@ -1,0 +1,8 @@
+{% extends '/root/base.html' %}
+{% block title %}Accountfinder{% endblock %}
+
+{% block content %}
+{% from "toolscripts/_toolscripts_card.html" import render_input %}
+{{render_input(tool_name="accountfinder",form=form)}}
+
+{% endblock %}

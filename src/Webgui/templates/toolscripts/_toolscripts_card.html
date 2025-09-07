@@ -1,0 +1,53 @@
+{% macro render_input(tool_name,form) %}
+
+<!-- tool title -->
+{% if tool_name == "accountfinder" %}
+<h1>Accountfinder</h1>
+{% endif %}
+
+<!-- tool input params -->
+<div name="flex-container",id="container" style="display:flex;width: 100%;height:100%;flex:1">
+    <section name="left">
+        <form method="post" id="accountfinderForm">
+            {%if tool_name == "accountfinder"%}
+                <div>
+                    {{form.target.label(class='form-control-label')}}
+                    {% if form.target.errors %}
+                        {{form.target(class='form-control is-invalid')}}
+                        <div class="invalid-feedback">
+                        {% for error in form.target.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.target(class='form-control')}}
+                    {% endif %}
+                </div>
+                <div>
+                    {{form.target_type.label(class='form-control-label')}}
+                    {% if form.target_type.errors %}
+                        {{form.target_type(class='form-control is-invalid')}}
+                        <div class="invalid-feedback">
+                            {% for error in form.target_type.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.target_type(class='form-control')}}
+                    {% endif %}
+                </div>
+                <!-- {{form.submit}} -->
+                <button>Submit</button>
+            {% endif %}
+
+        </form>
+    </section>
+    <section name="right">
+        <div>
+            <h1>Output</h1>
+        </div>
+    </section>
+</div>
+<!-- tool output -->
+
+{% endmacro %}

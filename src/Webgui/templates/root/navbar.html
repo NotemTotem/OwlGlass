@@ -1,0 +1,18 @@
+
+<nav id="nav" class="overlay">
+        <div class="logo">
+            <a href="{{url_for('index')}}">
+                {% from "root/logo.html" import logo %}
+                {{logo(style="height:32px")}}
+                <p>Owlglass</p>
+            </a>
+        </div>
+
+        <ul class="menu">
+            <li>
+                <a href="{{url_for('index')}}"><p>Help</p></a>
+            </li>
+        </ul>
+
+
+    </nav>
