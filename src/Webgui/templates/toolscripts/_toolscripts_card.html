@@ -6,7 +6,7 @@
 {% endif %}
 
 <!-- tool input params -->
-<div name="flex-container",id="container" style="display:flex;width: 100%;height:100%;">
+<div name="flex-container",id="container" style="display:flex;width: 100%;height:100%;flex:1">
     <section name="left">
         <form method="post" id="accountfinderForm">
             {%if tool_name == "accountfinder"%}
@@ -43,8 +43,8 @@
         </form>
     </section>
     <section name="right">
-        <div id="output" hx-swap="innerHTML" hx-get="/test",hx-trigger="Successful from:body">
-
+        <div>
+            <h1>Output</h1>
         </div>
     </section>
 </div>

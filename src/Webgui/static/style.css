@@ -47,6 +47,7 @@ p {
 .top {
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex: 1;
 }
 
@@ -64,3 +65,35 @@ p {
     height: 100%;
     background-color: var(--secondary-background);
 }
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.tooldirectory {
+    padding-top:10px;
+    height: 100%;
+}
+
+.exampletool {
+    width: 100%;
+    background-color: black!important;
+}
+
+.flex-grid {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-grid .col {
+    width: 32%;
+}
+
