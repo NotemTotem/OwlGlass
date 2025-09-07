@@ -1,0 +1,116 @@
+/* Navbar */
+.overlay {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+a,a:hover{
+    text-decoration:none;
+}
+
+nav{
+    backdrop-filter:blur(10px);
+    background:rgba(239,238,230,0.5);
+    /* background:rgba(252,251,244,0.8); */
+    height: 4em;
+    padding-left: 16px;
+    padding-right:8px;
+    /* padding:10px 15px; */
+    display:flex;
+    align-items:center;
+}
+
+nav a{
+    color:var(--primary-text-colour);
+} 
+
+nav a:hover{
+    color:var(--primary-hover-colour)
+}
+
+.logo{
+    display:flex;
+    height: 100%;
+    margin-right: auto;
+}
+
+.logo a{
+    display:flex;
+    align-items:center;
+    border-right:10px;
+    border-color:black;
+}
+
+.logo a p {
+    margin: 0!important;
+    padding: 0px 0px 0px 5px;
+    font-size: 25px;
+    font-family: "Inter";
+}
+
+.logo a img {
+    height: 3rem;
+}
+
+.menu{
+    padding:0!important;
+    margin:0!important;
+    display:flex;
+    align-items:center;
+    list-style:none;
+}
+
+.menu li{
+    font-size:30px;
+}
+
+.nav-auth-headers li a p {
+    font-size: 25px;
+    font-weight: 400;
+    font-family: "Inter";
+}
+
+.toggle{
+    font-size:30px;
+    display:none;
+}
+
+#nav {
+    transition: top 0.3s; /* Transition effect when sliding down (and up) */
+    position:fixed;
+    width: 100%;
+    z-index: 99999;
+    display: flex;
+}
+@media screen and (max-height:750px) {
+    .nav {
+        height: 5em;
+    }
+    .menu li {
+        font-size:40px;
+    }
+}
+@media screen and (max-width:860px) {
+
+}
+
+@media screen and (max-width:370px) {
+    .menu li{
+        font-size:15px
+    }
+}
+
+@media screen and (max-width:600px) {
+}
+
+/* Base css */
+#main-content {
+    padding:83px 0 0 0
+}
+
+.center_absolute {
+    left: 0;
+    margin-top: -100px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}

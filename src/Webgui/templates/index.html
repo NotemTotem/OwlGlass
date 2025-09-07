@@ -2,25 +2,5 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div>
-    <div>
-        <section name="title">
-            <h1>Account finder</h1>
-        </section>
-
-<form>
-    <p>Email</p>
-    <input type="email" name="email">
-    <button type="submit" hx-post="/toolscripts/accountfinder" hx-target="#Output" hx-swap="innerHTML">
-        Submit
-    </button> 
-</form>
-        <h2>Output</h2>
-        <div id="Output">
-
-        </div>
-    </div>
-</div>
-
-
+<a href="/toolscripts/accountfinder">Accountfinder</a>
 {% endblock %}

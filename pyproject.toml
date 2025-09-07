@@ -1,7 +1,7 @@
 [project]
 name = "owlglass"
 version = "0.1"
-dependencies = ["requests","flask","WTForms","Flask-WTF"]
+dependencies = ["requests","flask","flask-wtf"]
 
 [build-system]
 requires = ["setuptools>=75.8.0"]
