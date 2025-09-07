@@ -1,11 +1,6 @@
-from flask import Flask,render_template
-
+from flask import Flask,render_template,request
+from Interfacer import interfacer
 app = Flask(__name__)
-
-#Global csrf protection
-from flask_wtf.csrf import CSRFProtect
-csrf = CSRFProtect(app)
-
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -17,6 +12,14 @@ def index():
 
 
 @app.route('/toolscripts/accountfinder',methods=["POST"])
+def accountfinder():
+    if request.method == "POST":
+        form = request.form
+        email = form.get("email")
+        response = interfacer.find_accounts(email,"email")
+        if response:
+            return response,200
+
 
 if __name__ == "__main__":
     app.run(debug=True,port=5000)

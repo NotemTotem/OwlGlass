@@ -8,19 +8,13 @@
             <h1>Account finder</h1>
         </section>
 
-        <form>
-            {{form.hidden_tag()}}
-            <p>Email</p>
-            <input type="email">
-            <br>
-            <p>- OR -</p>
-            <p>Username</p>
-            <input type="text">
-            <br>
-            <button type="Submit" hx-post="/toolscripts/accountfinder",hx-target="#Output">
-                Submit
-            </button> 
-        </form>
+<form>
+    <p>Email</p>
+    <input type="email" name="email">
+    <button type="submit" hx-post="/toolscripts/accountfinder" hx-target="#Output" hx-swap="innerHTML">
+        Submit
+    </button> 
+</form>
         <h2>Output</h2>
         <div id="Output">
 
