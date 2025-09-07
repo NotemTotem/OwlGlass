@@ -9,7 +9,7 @@ a,a:hover{
 
 nav{
     backdrop-filter:blur(10px);
-    background:rgba(239,238,230,0.5);
+    background:rgba(216,187,156,0.5);
     /* background:rgba(252,251,244,0.8); */
     height: 4em;
     padding-left: 16px;

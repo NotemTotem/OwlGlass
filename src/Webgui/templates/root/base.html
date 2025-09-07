@@ -13,15 +13,15 @@
     <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='navbar.css')}}">
   </head>
-<header>
-  {% include '/root/navbar.html' %}
-</header>
+
 <body>
-  <div id="main-container" name="main-container">
+  <header>
+    {% include 'root/navbar.html' %}
+  </header>
+  <main id="main-container">
     {% block content %}
     {% endblock content %}
-  </div>
-  <script href="{{url_for('static',filename='script.js')}}"></script>
+  </main>
+  <script src="{{url_for('static',filename='script.js')}}"></script>
 </body>
-</div>
 </html>
