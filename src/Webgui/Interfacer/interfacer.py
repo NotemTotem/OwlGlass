@@ -6,3 +6,11 @@ def find_accounts(target,type):
         e = os.popen(command)
         output = e.readlines()
         return output
+
+
+def scan_ports(target, ports):
+    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\portscan.py" -a "{target}" -p "{ports}"'''
+    e = os.popen(command)
+    output = e.readlines()
+    print(output)
+    return output

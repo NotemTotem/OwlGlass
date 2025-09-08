@@ -11,6 +11,10 @@
             <div name="left" class="block-header">
                 {% if tool_name == "accountfinder" %}
                 <p class="block-header-text">Accountfinder</p>
+                {% endif%}
+                {% if tool_name == "portscan" %}
+                <p class="block-header-text">Port Scanner</p>
+
                 {% endif %}
             </div>
             <pre class="toolscript-form-pre">
@@ -46,6 +50,36 @@
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
 
+                    {%if tool_name == "portscan"%}
+                        <div>
+                            {{form.target.label(class='form-control-label')}}
+                            {% if form.target.errors %}
+                                {{form.target(class='form-control is-invalid')}}
+                                <div class="invalid-feedback">
+                                {% for error in form.target.errors %}
+                                    <span>{{error}}</span>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.target(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <div>
+                        {{form.ports.label(class='form-control-label')}}
+                        {% if form.ports.errors %}
+                            {{form.ports(class='form-control is-invalid')}}
+                            <div class="invalid-feedback">
+                            {% for error in form.target_type.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                                {{form.ports(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <!-- {{form.submit}} -->
+                        <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
+                    {% endif %}
                 </form>
             </pre>
         </div>

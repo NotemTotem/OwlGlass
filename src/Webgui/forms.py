@@ -14,5 +14,7 @@ class AccountfinderForm(FlaskForm):
             if not('@' in (field.data) and '.' in field.data.split('@')[1] and len(field.data.split('@')[0]) >0):
                 raise ValidationError("Not a valid email.")
 
-                 
-            
+class port_scanner_form(FlaskForm):
+    target = StringField("Target Address", validators=[DataRequired()], render_kw={"placeholder": "Target URL or IP Adress"})
+    ports = StringField("Ports", render_kw={"placeholder": "Target URL or IP Adress"})
+    submit = SubmitField("Submit")
