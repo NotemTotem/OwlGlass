@@ -4,7 +4,8 @@ from wtforms.validators import DataRequired
 
 #Accountfinder form class
 class AccountfinderForm(FlaskForm):
-    target = StringField("Enter the targets username or email.",validators=[DataRequired()])
+    target = StringField("Target",validators=[DataRequired()],render_kw={"placeholder": "Target's username or email"}
+)
     target_type = SelectField("Target Type",choices=['username','email'])
     submit = SubmitField("Submit")
 

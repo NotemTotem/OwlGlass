@@ -3,6 +3,9 @@
 
 {% block content %}
 {% from "toolscripts/_toolscripts_card.html" import render_input %}
-{{render_input(tool_name="accountfinder",form=form)}}
-
+{% if response %}
+    {{render_input(tool_name="accountfinder",form=form,response=response)}}
+{% else %}
+    {{render_input(tool_name="accountfinder",form=form)}}
+{% endif %}
 {% endblock %}
