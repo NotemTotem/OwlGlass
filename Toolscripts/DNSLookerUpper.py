@@ -30,7 +30,7 @@ def queryDns(target_domain, recursion_count, timeout):
                 continue
             # Print the answers
             for rdata in answers:
-                result_info.append(rdata)
+                result_info.append(rdata.to_text())
                 if int(rdata.rdtype) != 6 and int(rdata.rdtype) != 16 : # if not SOA ::: this is stupid 
                     new_recursion.append(rdata.to_text())
             
@@ -142,6 +142,6 @@ for arg_name, arg_value in arg_dict.items():
 
 queryDns(target_domain, recursion_count, timeout)
 
-pprint(record_info, indent=4)
+print(record_info)
 
 

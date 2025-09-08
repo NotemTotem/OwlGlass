@@ -10,7 +10,10 @@
         <div name="block-simple" class="block-simple">
             <div name="left" class="block-header">
                 {% if tool_name == "accountfinder" %}
-                <p class="block-header-text">Accountfinder</p>
+                    <p class="block-header-text">Accountfinder</p>
+
+                {% elif tool_name == "dnslookup" %}
+                    <p class="block-header-text">DNSLookup</p>
                 {% endif %}
             </div>
             <pre class="toolscript-form-pre">
@@ -40,6 +43,35 @@
                             </div>
                             {% else %}
                                 {{form.target_type(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <!-- {{form.submit}} -->
+                        <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
+                    {%elif tool_name == "dnslookup"%}
+                        <div>
+                            {{form.target.label(class='form-control-label')}}
+                            {% if form.target.errors %}
+                                {{form.target(class='form-control is-invalid')}}
+                                <div class="invalid-feedback">
+                                {% for error in form.target.errors %}
+                                    <span>{{error}}</span>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.target(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <div>
+                        {{form.my_choices.label(class='form-control-label')}}
+                        {% if form.my_choices.errors %}
+                            {{form.my_choices(class='form-control is-invalid')}}
+                            <div class="invalid-feedback">
+                            {% for error in form.my_choices.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                                {{form.my_choices(class='form-control')}}
                             {% endif %}
                         </div>
                         <!-- {{form.submit}} -->
