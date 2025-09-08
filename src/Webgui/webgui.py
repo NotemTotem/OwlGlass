@@ -38,7 +38,7 @@ def accountfinder():
     #         return response,200
     return render_template('toolscripts/accountfinder.html',form=form)
 @app.route('/toolscripts/dnslookup', methods=["GET", "POST"])
-def dnslookup():
+def dnslookup(): #oiafnhoiawhfoihaw
     form = dnslookupForm()
     if form.validate_on_submit():
         target = form.target.data
