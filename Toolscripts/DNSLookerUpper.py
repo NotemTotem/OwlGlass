@@ -1,10 +1,10 @@
 import dns.resolver
+import dns.name
 import argparse
 from pprint import pprint
 
 record_types = []
 record_info = {}
-
 
 def queryDns(target_domain, recursion_count, timeout):
     if recursion_count >= 0:
@@ -26,18 +26,20 @@ def queryDns(target_domain, recursion_count, timeout):
                 continue
             except dns.resolver.NoNameservers:
                 continue
+            except dns.name.LabelTooLong:
+                continue
             # Print the answers
             for rdata in answers:
                 result_info.append(rdata)
-                if int(rdata.rdtype) != 6: # if not SOA
+                if int(rdata.rdtype) != 6 and int(rdata.rdtype) != 16 : # if not SOA ::: this is stupid 
                     new_recursion.append(rdata.to_text())
             
             target_info[record_type] = result_info
             record_info[target_domain] = target_info
+
         for name in new_recursion:
             queryDns(name, recursion_count-1, timeout)
     return
-
 
 parser = argparse.ArgumentParser(
     prog="DNS scraper",
@@ -46,6 +48,7 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument("target")
+
 parser.add_argument("-a", "--A", action="store_true")
 parser.add_argument("-ns", "--NS", action="store_true")
 parser.add_argument("-md", "--MD", action="store_true")
@@ -108,7 +111,7 @@ parser.add_argument("-dlv", "--DLV", action="store_true")
 
 parser.add_argument("-x", "--ALL", action="store_true", help="Set all record types")
 parser.add_argument("-r", "--recurse", type=int, help="Usage: -r <number of recursions>", default=0)
-parser.add_argument("-t", "--timeout", type=int, help="Usage: -t <number of seconds>", default=4)
+parser.add_argument("-t", "--timeout", type=int, help="Usage: -t <number of seconds>", default=3)
 
 # Set the target domain and record type
 args = parser.parse_args()
