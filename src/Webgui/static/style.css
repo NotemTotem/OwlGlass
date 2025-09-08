@@ -174,7 +174,7 @@ p {
     justify-content: space-around;
 }
 
-.toolscripts_container {
+#toolscripts_container {
     display: flex;
     gap: 0.5em;
 }
