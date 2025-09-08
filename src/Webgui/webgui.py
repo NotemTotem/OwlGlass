@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,make_response
 from Interfacer import interfacer
-from forms import AccountfinderForm, dnslookupForm
+from forms import AccountfinderForm, dnslookupForm, port_scanner_form
 app = Flask(__name__)
 #Disabling csrf protection as this is a local webserver
 app.config['WTF_CSRF_ENABLED'] = False
@@ -37,23 +37,6 @@ def accountfinder():
     #     if response:
     #         return response,200
     return render_template('toolscripts/accountfinder.html',form=form)
-
-@app.route('/toolscripts/dnslookup', methods=["GET", "POST"])
-def dnslookup():
-    form = dnslookupForm()
-    if form.validate_on_submit():
-        target = form.target.data
-        dns_record_types = form.my_choices.data
-        response = interfacer.dns_lookup(target, dns_record_types)
-        response_formatted = []
-        list = []
-        for i in response:
-            response_formatted.append(i.replace('\n','<br>'))
-        response_formatted = ''.join(response_formatted)
-
-
-        return render_template('toolscripts/dnslookup.html', form=form, response=response_formatted)
-    return render_template('toolscripts/dnslookup.html', form=form)
 @app.route('/test')
 def test():
     return "2223232132"

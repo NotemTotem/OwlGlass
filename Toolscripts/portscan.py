@@ -1,6 +1,7 @@
 import socket
 import threading
 import argparse
+import json
 
 #dictionary of ports and common services and the requests that will make the service send a banner response
 #"common port":["common service", "request to get banner"]
@@ -55,22 +56,13 @@ def grab_banner(s, port):
             except socket.timeout:
                 break
 
-        if banner:
-            output = f"\n - Banner:\n{banner}"
-        else:
+        if not banner:
             raise Exception("Banner returned Null")
 
     except Exception as err:
-        output = f"\n - Failed To Grab Banner: {err}"
+        return str(err)
 
-        #search for port in dictionary to provide a guess at the service
-        service_guess = PORT_PROBE_DICTIONARY.get(port)[0] #[0] is the service name
-        if service_guess:
-            output += f"\n - Possibly {service_guess}"
-        else:
-            output += "\n - No Info"
-
-    return output
+    return banner.decode("UTF-8")
 
 def scan_port(address, port):
     try:
@@ -83,10 +75,17 @@ def scan_port(address, port):
 
             #if connection succeeds
             if open == 0:
-                status = (f"Port {port} is open")
+                status = (f"Open")
 
                 #store results
-                results[PORTS.index(port)] = status + grab_banner(s, port)
+                if JSON:
+                    results[PORTS.index(port)] = json.dumps(
+                    {"port":port,
+                    "status":status,
+                    "banner":grab_banner(s, port),
+                    "service guess":PORT_PROBE_DICTIONARY.get(port)[0]})
+                if not JSON:
+                    results[PORTS.index(port)] = f"Port {port} is open\n{PORT_PROBE_DICTIONARY.get(port)[0]}\n {grab_banner(s, port)}\n\n"
 
     #error handling prevents crashing
     except socket.error as err:
@@ -94,8 +93,9 @@ def scan_port(address, port):
     except Exception as err:
         print(f"Error occured while scanning port: {port}\n {err}\n\n")\
 
-
 def main():
+    global PORTS
+    PORTS = []
     #Parse ports argument for single values, lists, or ranges
     for part in args.p.split(","):
         if "-" in part:
@@ -133,6 +133,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-a", help="Target address")
 parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (default: 3)")
 parser.add_argument("-p", default="0-999", help="Port(s) to scan (default: 0-999). Examples: 22,80,443 or 20-30")
+parser.add_argument("--json", action="store_true", help="json output for API")
 
 #parse arguments
 args = parser.parse_args()
@@ -140,6 +141,7 @@ args = parser.parse_args()
 #set static variables
 ADDRESS = args.a
 TIMEOUT = args.t
+JSON = args.json
 PORTS = []
 
 if __name__ == "__main__":
