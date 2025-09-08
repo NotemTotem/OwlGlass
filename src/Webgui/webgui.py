@@ -37,6 +37,41 @@ def accountfinder():
     #     if response:
     #         return response,200
     return render_template('toolscripts/accountfinder.html',form=form)
+@app.route('/toolscripts/dnslookup', methods=["GET", "POST"])
+def dnslookup():
+    form = dnslookupForm()
+    if form.validate_on_submit():
+        target = form.target.data
+        dns_record_types = form.my_choices.data
+        response = interfacer.dns_lookup(target, dns_record_types)
+        response_formatted = []
+        for i in response:
+            response_formatted.append(i.replace('\n','<br>'))
+        response_formatted = ''.join(response_formatted)
+
+
+        return render_template('toolscripts/dnslookup.html', form=form, response=response_formatted)
+    return render_template('toolscripts/dnslookup.html', form=form)
+
+
+@app.route('/toolscripts/portscan', methods=["GET", "POST"])
+def port_scanner():
+    form = port_scanner_form()
+
+    if form.validate_on_submit():
+        target= form.target.data
+        ports= form.ports.data
+        print(target, ports)
+        response = interfacer.scan_ports(target, ports)
+        response_formatted = []
+        for i in response:
+            response_formatted.append(i.replace('\n','<br>'))
+        response_formatted = ''.join(response_formatted)
+
+        return render_template ('toolscripts/portscan.html',form=form,response=response_formatted)
+
+    return render_template('toolscripts/portscan.html', form=form)
+
 @app.route('/test')
 def test():
     return "2223232132"
