@@ -97,3 +97,84 @@ p {
     width: 32%;
 }
 
+.flex-h {
+    flex: 1;
+}
+
+.toolform {
+    height: 100%;
+    /* border: 1px solid light-dark(#c3c7cb, #51565d); */
+    /* background-color: white; */
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* block */
+.block-simple {
+    height: 100%;
+    --border:1px solid light-dark(#c3c7cb, #51565d);
+    border:1px solid light-dark(#c3c7cb, #51565d);
+    border-radius: 0.25rem;
+    overflow: hidden;
+
+}
+
+.block-simple .block-header {
+    
+    gap: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.block-simple .block-header {
+    align-items: center;
+    border-bottom: 1px solid light-dark(#c3c7cb, #51565d);
+    display: flex;
+    line-height: 1;
+    min-height: 3.1rem;
+    padding: 0.5rem 1rem;
+}
+
+.block-header {
+    background-color: white;
+}
+.block-header-text {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-right: auto;
+}
+
+.mdn-block-header {
+    margin: 1rem 0;
+    display: block;
+    line-height: 1.75;
+    overflow-wrap:break-word;
+    /* height: 336px; */
+    height: 100%;
+    width: 504px;
+}
+
+.block-simple pre {
+    height: 100%;
+    background-color: light-dark(#edeef0, #2d3034);
+    display: flex;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.block-simple pre form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.tool-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+#toolscripts_container {
+    display: flex;
+    gap: 0.5em;
+}

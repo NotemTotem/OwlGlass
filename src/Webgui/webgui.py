@@ -19,11 +19,15 @@ def accountfinder():
     form = AccountfinderForm()
     #Validating form upon submission
     if form.validate_on_submit():
-        response = make_response('1234')    
-        response.headers['HX-Trigger'] = 'Successful'
-        print("target:",form.target.data)
-        print("target_type",form.target_type.data)
-        return response
+        target = form.target.data
+        target_type = form.target_type.data
+        print(target,target_type)
+        response = interfacer.find_accounts(target,target_type)
+        response_formatted = []
+        for i in response:
+            response_formatted.append(i.replace('\n','<br>'))
+        response_formatted = ''.join(response_formatted)
+        return render_template('toolscripts/accountfinder.html',form=form,response=response_formatted)
 
 
     # if request.method == "POST":
