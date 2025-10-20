@@ -13,7 +13,7 @@ class AccountfinderForm(FlaskForm):
             if not('@' in (field.data) and '.' in field.data.split('@')[1] and len(field.data.split('@')[0]) >0):
                 raise ValidationError("Not a valid email.")
 
-                 
+
 class dnslookupForm(FlaskForm):
     target = StringField("Target", validators=[DataRequired()], render_kw={"placeholder": "Target website or subdomain"})
     record_type_choices = [
@@ -80,7 +80,16 @@ class dnslookupForm(FlaskForm):
 
     my_choices = SelectMultipleField("Select DNS record types", choices=record_type_choices)
     submit = SubmitField("Submit query")
+
+
 class port_scanner_form(FlaskForm):
     target = StringField("Target Address", validators=[DataRequired()], render_kw={"placeholder": "Target URL or IP Adress"})
-    ports = StringField("Ports", render_kw={"placeholder": "Target URL or IP Adress"})
+    ports = StringField("Ports", validators=[DataRequired()], render_kw={"placeholder": "Target Ports to Scan"})
+    submit = SubmitField("Submit")
+
+
+class fuzzer_form(FlaskForm):
+    target = StringField("Target URL", validators=[DataRequired()], render_kw={"placeholder": "Target URL or IP Adress"})
+    depth = StringField("Recursion Depth", validators=[DataRequired()], render_kw={"placeholder": "Depth of recursion"})
+    port = StringField("Port", render_kw={"placeholder": "Port of web server"})
     submit = SubmitField("Submit")

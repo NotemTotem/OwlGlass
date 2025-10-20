@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,make_response
 from Interfacer import interfacer
-from forms import AccountfinderForm, dnslookupForm, port_scanner_form
+from forms import AccountfinderForm, dnslookupForm, port_scanner_form, fuzzer_form
 app = Flask(__name__)
 #Disabling csrf protection as this is a local webserver
 app.config['WTF_CSRF_ENABLED'] = False
@@ -71,6 +71,25 @@ def port_scanner():
         return render_template ('toolscripts/portscan.html',form=form,response=response_formatted)
 
     return render_template('toolscripts/portscan.html', form=form)
+
+@app.route('/toolscripts/subdomainfuzz', methods=["GET", "POST"])
+def sub_fuzzer():
+    form = fuzzer_form()
+
+    if form.validate_on_submit():
+        target = form.target.data
+        recursion_depth = form.depth.data
+        port= form.port.data
+        print(target, port)
+        response = interfacer.fuzz_subs(target, recursion_depth, port)
+        response_formatted = []
+        for i in response:
+            response_formatted.append(i.replace('\n','<br>'))
+        response_formatted = ''.join(response_formatted)
+
+        return render_template ('toolscripts/subdomainfuzz.html',form=form,response=response_formatted)
+
+    return render_template('toolscripts/subdomainfuzz.html', form=form)
 
 @app.route('/test')
 def test():

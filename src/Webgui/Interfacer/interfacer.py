@@ -22,3 +22,28 @@ def dns_lookup(target, dns_records):
     output = e.readlines()
     print(output)
     return output
+
+def fuzz_dirs(target, recursion_depth, port):
+    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\dirfuzz.py" -u {target} -p {port} -d {recursion_depth} '''
+    print(command)
+    e = os.popen(command)
+    output = e.readlines()
+    print(output)
+    return output
+
+
+def fuzz_subs(target, recursion_depth, port):
+    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\dirfuzz.py" -u {target} -p {port} -d {recursion_depth} --subdomain'''
+    print(command)
+    e = os.popen(command)
+    output = e.readlines()
+    print(output)
+    return output
+
+def fuzz_vhosts(target, recursion_depth, port):
+    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\dirfuzz.py" -u {target} -p {port} -d {recursion_depth} --vhost '''
+    print(command)
+    e = os.popen(command)
+    output = e.readlines()
+    print(output)
+    return output

@@ -110,6 +110,49 @@
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
+                    {%if tool_name == "subfuzz"%}
+                        <div>
+                            {{form.target.label(class='form-control-label')}}
+                            {% if form.target.errors %}
+                                {{form.target(class='form-control is-invalid')}}
+                                <div class="invalid-feedback">
+                                {% for error in form.target.errors %}
+                                    <span>{{error}}</span>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                {{form.target(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <div>
+                        {{form.port.label(class='form-control-label')}}
+                        {% if form.port.errors %}
+                            {{form.port(class='form-control is-invalid')}}
+                            <div class="invalid-feedback">
+                            {% for error in form.target_type.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                                {{form.port(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <div>
+                        {{form.depth.label(class='form-control-label')}}
+                        {% if form.depth.errors %}
+                            {{form.depth(class='form-control is-invalid')}}
+                            <div class="invalid-feedback">
+                            {% for error in form.target_type.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                                {{form.depth(class='form-control')}}
+                            {% endif %}
+                        </div>
+                        <!-- {{form.submit}} -->
+                        <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
+                    {% endif %}
                 </form>
             </pre>
         </div>
