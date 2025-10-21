@@ -1,7 +1,7 @@
 import socket
 import threading
 import argparse
-import os
+
 def chunked_recv(s):
     #recieve response in chunks until the end of the headers, to save time and memory
     response = b""
@@ -67,16 +67,30 @@ def fuzz_sub(host, subdomain, port, recursion_count):
                 #not found code gets filtered out
                 if code not in range(400, 500):
                     print(f"\n{full_url} - {code}")
-                #redirect codes we will follow the redirect
-                if code in range(300, 400) and FOLLOW_REDIRECTS and recursion_count <= MAX_RECURSION:
-                    #parse response to find where to redirect
-                    redirect_host, redirect_path, redirect_port = locate_redirect(response)
 
-                    #recursivley follow redirects
-                    fuzz_sub(redirect_host, redirect_path, redirect_port, recursion_count+1)
+def fuzz_vhost(host, vhost, port, recursion_count):
+    try:
+        #create a socket to connect to port
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(TIMEOUT)
 
-                elif recursion_count > MAX_RECURSION:
-                    print("Max recusions reached: Stopping")
+            vhost = vhost.strip("\r\n")
+
+            host_header = vhost+"."+host
+
+            #connect to port
+            s.connect((url, port))
+
+            #send get request to recieve a response
+            s.sendall(f"GET / HTTP/1.0\r\n
+            Host: {host_header}\r\n\r\n".encode())
+            response = chunked_recv(s)
+
+            if response:
+                code = int(response[9:12])
+                #not found code gets filtered out
+                if code not in range(400, 500):
+                    print(f"\n{full_url} - {code}")
 
     #error handling prevents crashing
     except socket.error as err:
@@ -120,7 +134,8 @@ def fuzz_dir(host, path, port, recursion_count):
 
     #error handling prevents crashing
     except socket.error as err:
-        print(f"Socket error occured while fuzzing dir: {path}\n {err}\n\n")
+        #if socket error occurs it is likely that the subdomain doesnt exist
+        return
     except Exception as err:
         print(f"Error occured while fuzzing dir: {path}\n {err}\n\n")
 
@@ -131,14 +146,16 @@ def main():
         WORDLIST = open(args.w)
     #if wordlist not specified set the wordlist for subdomain mode
     if not args.w and SUBDOMAIN_MODE:
-            WORDLIST = open("static/resources/wordlists/subdomains.txt")
+            WORDLIST = open("../static/resources/wordlists/subdomains.txt")
     #if wordlist not specified set the wordlist for directory fuzz mode
     if not args.w and not SUBDOMAIN_MODE:
-            WORDLIST = open("static/resources/wordlists/paths.txt")
+            WORDLIST = open("../static/resources/wordlists/paths.txt")
     #set target functions
     if SUBDOMAIN_MODE:
         target_function = fuzz_sub
-    if not SUBDOMAIN_MODE:
+    elif VHOST_MODE:
+        target_function = fuzz_vhost
+    else:
         target_function = fuzz_dir
 
     #list to reference each thread
@@ -161,6 +178,7 @@ parser.add_argument("-t", type=int, default=3, help="Socket timeout in seconds (
 parser.add_argument("-r", action="store_true", help="Follow HTTP redirects (default: False)")
 parser.add_argument("-d", type=int, default=2, help="Maximum recursion depth (default: 2)")
 parser.add_argument("--subdomain", action="store_true", help="Fuzz for subdomains not directories (default: False)\n    - switches default wordlist to OwlGlass/static/resources/wordlists/subdomains.txt")
+parser.add_argument("--vhost", action="store_true", help="Fuzz for vhosts not directories (default: False)\n    - switches default wordlist to OwlGlass/static/resources/wordlists/subdomains.txt")
 
 #parge arguments
 args = parser.parse_args()
@@ -172,6 +190,7 @@ TIMEOUT = args.t
 FOLLOW_REDIRECTS = args.r
 MAX_RECURSION = args.d
 SUBDOMAIN_MODE = args.subdomain
+VHOST_MODE = args.vhost
 
 if __name__ == "__main__":
     main()
