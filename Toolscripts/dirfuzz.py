@@ -1,7 +1,7 @@
 import socket
 import threading
 import argparse
-
+import os
 def chunked_recv(s):
     #recieve response in chunks until the end of the headers, to save time and memory
     response = b""
@@ -131,10 +131,10 @@ def main():
         WORDLIST = open(args.w)
     #if wordlist not specified set the wordlist for subdomain mode
     if not args.w and SUBDOMAIN_MODE:
-            WORDLIST = open("../static/resources/wordlists/subdomains.txt")
+            WORDLIST = open("static/resources/wordlists/subdomains.txt")
     #if wordlist not specified set the wordlist for directory fuzz mode
     if not args.w and not SUBDOMAIN_MODE:
-            WORDLIST = open("../static/resources/wordlists/paths.txt")
+            WORDLIST = open("static/resources/wordlists/paths.txt")
     #set target functions
     if SUBDOMAIN_MODE:
         target_function = fuzz_sub
