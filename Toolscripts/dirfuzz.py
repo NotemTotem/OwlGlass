@@ -67,7 +67,12 @@ def fuzz_sub(host, subdomain, port, recursion_count):
                 #not found code gets filtered out
                 if code not in range(400, 500):
                     print(f"\n{full_url} - {code}")
-
+    #error handling prevents crashing
+    except socket.error as err:
+        #if socket error occurs it is likely that the subdomain doesnt exist
+        return
+    except Exception as err:
+        print(f"Error occured while fuzzing subdomain: {subdomain}\n {err}\n\n")
 def fuzz_vhost(host, vhost, port, recursion_count):
     try:
         #create a socket to connect to port
@@ -82,8 +87,7 @@ def fuzz_vhost(host, vhost, port, recursion_count):
             s.connect((url, port))
 
             #send get request to recieve a response
-            s.sendall(f"GET / HTTP/1.0\r\n
-            Host: {host_header}\r\n\r\n".encode())
+            s.sendall(f"GET / HTTP/1.0\r\n Host: {host_header}\r\n\r\n".encode())
             response = chunked_recv(s)
 
             if response:
@@ -91,7 +95,6 @@ def fuzz_vhost(host, vhost, port, recursion_count):
                 #not found code gets filtered out
                 if code not in range(400, 500):
                     print(f"\n{full_url} - {code}")
-
     #error handling prevents crashing
     except socket.error as err:
         #if socket error occurs it is likely that the subdomain doesnt exist
@@ -131,7 +134,6 @@ def fuzz_dir(host, path, port, recursion_count):
 
             elif recursion_count > MAX_RECURSION:
                 print("Max recusions reached: Stopping")
-
     #error handling prevents crashing
     except socket.error as err:
         #if socket error occurs it is likely that the subdomain doesnt exist
@@ -146,10 +148,10 @@ def main():
         WORDLIST = open(args.w)
     #if wordlist not specified set the wordlist for subdomain mode
     if not args.w and SUBDOMAIN_MODE:
-            WORDLIST = open("../static/resources/wordlists/subdomains.txt")
+            WORDLIST = open("static/resources/wordlists/subdomains.txt")
     #if wordlist not specified set the wordlist for directory fuzz mode
     if not args.w and not SUBDOMAIN_MODE:
-            WORDLIST = open("../static/resources/wordlists/paths.txt")
+            WORDLIST = open("static/resources/wordlists/paths.txt")
     #set target functions
     if SUBDOMAIN_MODE:
         target_function = fuzz_sub

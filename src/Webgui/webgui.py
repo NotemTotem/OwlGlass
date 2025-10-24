@@ -91,6 +91,44 @@ def sub_fuzzer():
 
     return render_template('toolscripts/subdomainfuzz.html', form=form)
 
+@app.route('/toolscripts/vhostfuzz', methods=["GET", "POST"])
+def vhost_fuzzer():
+    form = fuzzer_form()
+
+    if form.validate_on_submit():
+        target = form.target.data
+        recursion_depth = form.depth.data
+        port= form.port.data
+        print(target, port)
+        response = interfacer.fuzz_subs(target, recursion_depth, port)
+        response_formatted = []
+        for i in response:
+            response_formatted.append(i.replace('\n','<br>'))
+        response_formatted = ''.join(response_formatted)
+
+        return render_template ('toolscripts/vhostfuzz.html',form=form,response=response_formatted)
+
+    return render_template('toolscripts/vhostfuzz.html', form=form)
+
+@app.route('/toolscripts/directoryfuzz', methods=["GET", "POST"])
+def dir_fuzzer():
+    form = fuzzer_form()
+
+    if form.validate_on_submit():
+        target = form.target.data
+        recursion_depth = form.depth.data
+        port= form.port.data
+        print(target, port)
+        response = interfacer.fuzz_subs(target, recursion_depth, port)
+        response_formatted = []
+        for i in response:
+            response_formatted.append(i.replace('\n','<br>'))
+        response_formatted = ''.join(response_formatted)
+
+        return render_template ('toolscripts/directoryfuzz.html',form=form,response=response_formatted)
+
+    return render_template('toolscripts/directoryfuzz.html', form=form)
+
 @app.route('/test')
 def test():
     return "2223232132"

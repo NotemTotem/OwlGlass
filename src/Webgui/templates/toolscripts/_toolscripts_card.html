@@ -110,7 +110,7 @@
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
-                    {%if tool_name == "subfuzz"%}
+                    {%if tool_name == "subfuzz" or tool_name == "dirfuzz" or tool_name == "vhostfuzz"%}
                         <div>
                             {{form.target.label(class='form-control-label')}}
                             {% if form.target.errors %}
