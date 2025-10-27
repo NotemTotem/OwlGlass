@@ -42,21 +42,22 @@ def web_check(target_object,web_object):
 def main():
 
 
-    if args.e:
-        target_object = {
-            'target':args.e,
-            'targetSplit':args.e[0].split('@'),
-            'username':args.e[0].split('@')[0],
-            'domain':args.e[0].split('@')[1],
             'targetType':'email'
         }
-    elif args.u:
-        target_object = {
-            'target':args.u[0],
             'targetType':'username'
         }
     if not args.w:
         WEBSITES = websitemanager.web_objects       
+
+def main():
+ 
+    #Parsing arguements 
+    if args.t and len(args.t) >1:
+        parser.error("Please only provide one email or username for now.")
+
+    if not args.t and not WEBSITECHECK:
+        parser.error('Please specify an email or username using -e or -u ')
+
     
     report = {
         'target':target_object,
@@ -87,8 +88,6 @@ def main():
         for website in report['checks']:
             print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
 
-parser.add_argument('-u',action='append',help='Username to find accounts under (required if email not specified)')
-parser.add_argument('-e',action='append',help='Email to find accounts under (required if username not specified)')
 parser.add_argument('-w',help="The website(s) to check. comma-seperated (default: all)")
 parser.add_argument('--development',action='store_true',help="Provides additional debugging information during runtime (default: true)")
 parser.add_argument('--json',action='store_true',help="Provides additional debugging information during runtime (default: true)")
@@ -98,16 +97,6 @@ if len(sys.argv)==1:
     sys.exit(1)
 
 args = parser.parse_args()
-
-if args.e and args.u:
-    parser.error("Please specify EITHER an email OR username")
-
-if args.e and len(args.e) >1 or args.u and len(args.u) >1:
-    parser.error("Please only provide one email or username for now.")
-
-if not args.e and not args.u:
-    parser.error('Please specify an email or username using -e or -u ')
-
 
 if __name__ == "__main__":
     main()
