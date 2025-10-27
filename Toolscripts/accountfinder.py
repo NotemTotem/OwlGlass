@@ -21,19 +21,25 @@ class MyParser(argparse.ArgumentParser):
 parser = MyParser()
 
 
-def web_check(target_object,web_object):
+def web_check(target_object,website):
     if target_object["targetType"] == 'email':
         target = target_object["username"]
     elif target_object["targetType"] == 'username':
         target = target_object["target"]
     else:
         parser.debug_print(f"targetType of {target_object['targetType']!r} not present in web_check.")
+    
+    if "headers" in website:
+        headers = website[headers]
+    else:
+        headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0",}
+    
+    url = website['url'].replace('{}',target)
 
-    url = web_object['url'].replace('{}',target)
-
-    if web_object['errorType'] == 'status_code':
+    if website['errorType'] == 'status_code':
         try:
-            r = requests.get(url)
+            headers = headers
+            r = requests.get(url,headers=headers)
         except Exception as e:
             parser.debug_print(e)
             return False,url
@@ -42,7 +48,7 @@ def web_check(target_object,web_object):
         else:
             return False,url
     else:
-        parser.debug_print(f"status_code of {web_object['status_code']!r} not currently implemented.")
+        parser.debug_print(f"status_code of {website['status_code']!r} not currently implemented.")
 
 def return_target_entry(target_string):
     #Check if target string is an email
@@ -65,13 +71,22 @@ def return_target_entry(target_string):
         }
 
 def main():
- 
+    #placeholder
+    debug_filters = {
+        'enabled':True,
+        'websites':None,
+        'errorTypes':['status_code'],
+    }
+
+    if args.w:
+        debug_filters['websites'] = args.w
+
     #Parsing arguements 
     if args.t and len(args.t) >1:
         parser.error("Please only provide one email or username for now.")
 
     if not args.t and not WEBSITECHECK:
-        parser.error('Please specify an email or username using -e or -u ')
+        parser.error('Please specify a username or email as the target.')
     if args.cap:
         #caps the number of websites which can be queried. 
         webcap = int(args.cap)
@@ -80,28 +95,47 @@ def main():
     #Loading in web objects from json file.
     with open('static\\resources\\accountfinder\\data.json') as json_file:
         website_objects = json.load(json_file)  
-    
+        #The first entry is just a schema object so we skip this.
+        website_objects.pop('$schema')
+
     report = {
         'targets':[],
         'checks':[]
     }
-
     if not WEBSITECHECK:
         target_string = args.t[0]
         target_object = return_target_entry(target_string)
         report['targets'].append(target_object)
+
+    keys_to_remove = []
+    for key,website in website_objects.items():
+        if debug_filters['enabled'] == True:
+            if debug_filters['errorTypes']:
+                if website['errorType'] not in debug_filters['errorTypes']:
+                    if key not in keys_to_remove:
+                        keys_to_remove.append(key)
+            if debug_filters['websites']:
+                if key not in debug_filters['websites']:
+                    if key not in keys_to_remove:
+                        keys_to_remove.append(key)
+
+    
+    for key in keys_to_remove:
+        website_objects.pop(key)
+
     #Tracking iteration count so we can set a max num of websites to check.
     index = -1
+    successful_websites = []
+    unsuccessful_websites = []
+    parser.debug_print(f"Websites:{len(website_objects)}")
     for key, website in website_objects.items():
         index+=1
-        parser.debug_print(f"Index:{index}, Website:{website}")
+        parser.debug_print(f"Index:{index}, Website:{key}")
         #This lets us set a max number of websites to check before printing the results.
         
         if webcap and index > webcap:
             break
-        if index == 0:
-            #The first entry is just a schema object so we skip this.
-            continue
+
         if 'isNSFW' in website:
             #Some websites are NSFW as I got the json dataset from an opensource project. As such we must skip these.  
             continue
@@ -121,7 +155,10 @@ def main():
             'accountFound':response,
             'attemptedUrl':attempted_url
         }
-        
+        if response == True:
+            successful_websites.append(key)
+        else:
+            unsuccessful_websites.append(key)
         report['checks'].append(report_entry)
 
     if JSON_ONLY:
@@ -135,15 +172,28 @@ def main():
             print(f"\n{' '*((length//2)-len('- USER INFO -')//2)}- USER INFO -")
             print(f"Target: {report['targets'][0]['target']!r}")
         print(f"\n{' '*((length//2)-len('- WEBSITES CHECKED -')//2)}- WEBSITES CHECKED -")
+        if WEBSITECHECK:
+            print(unsuccessful_websites)
         for website in report['checks']:
-            if website["accountFound"] == True:
-                print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
+            if WEBSITECHECK:
+                if website["accountFound"] == False:
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
+            else:
+                if website["accountFound"] == True:
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
+        
+        if WEBSITECHECK:
+            print(successful_websites)
         for website in report['checks']:
-            if website["accountFound"] == False:
-                print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
-
+            if WEBSITECHECK:
+                if website["accountFound"] == True:
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
+            else:   
+                if website["accountFound"] == False:
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
 parser.add_argument('-t',action='append',help='Target string to find accounts under. Can be an email or username (required:true)')
 parser.add_argument('-cap',help="Specify a non-zero positive number as a limit to cap number of websites the target string will be checked against (required:false)")
+parser.add_argument('-w',action ='append')
 #parser.add_argument('-w',help="The website(s) to check. comma-seperated (default: all)")
 parser.add_argument('--development',action='store_true',help="Provides additional debugging information during runtime (default: true)")
 parser.add_argument('--json',action='store_true',help="Provides additional debugging information during runtime (default: true)")
