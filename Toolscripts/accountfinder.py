@@ -1,6 +1,7 @@
 import argparse
 import sys
 import requests
+import re
 
 DEVELOPMENT = '--development' in sys.argv and not '--json' in sys.argv
 JSON_ONLY = '--json' in sys.argv
@@ -42,8 +43,23 @@ def web_check(target_object,web_object):
 def main():
 
 
+def return_target_entry(target_string):
+    #Check if target string is an email
+    if re.match("[^@]+@[^@]+\\.[^@]+",target_string):
+        return {
+            'target':target_string,
+            'targetSplit':target_string.split('@'),
+            'username':target_string.split('@')[0],
+            'domain':target_string.split('@')[1],
             'targetType':'email'
         }
+    #Otherwise assume its a username.
+    else:
+        return {
+            'target':target_string,
+            'targetSplit':None,
+            'username':None,
+            'domain':None,
             'targetType':'username'
         }
     if not args.w:
@@ -60,7 +76,7 @@ def main():
 
     
     report = {
-        'target':target_object,
+        'targets':[],
         'checks':[]
     }
     for index, key in enumerate(WEBSITES.keys()):
