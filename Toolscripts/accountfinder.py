@@ -5,33 +5,6 @@ import requests
 DEVELOPMENT = '--development' in sys.argv and not '--json' in sys.argv
 JSON_ONLY = '--json' in sys.argv
 
-class WebsiteManager:
-    def __init__(self):
-        """
-        Manages supported websites.
-        errorType; currently only supports status_code
-        url; the url to test username. 
-        urlMain; the main url to access the website
-        username_claimed; a currently existing user (for testing purposes)
-        entry schema:
-        "websitename":{
-            'errorType':str,
-            'url':str,
-            'urlMain':str,
-            'username_claimed':str
-        }
-        """
-        self.web_objects = {
-            "chess.com":{
-                'errorType':'status_code',
-                'url':'chess.com/member/<target>',
-                'urlMain':'chess.com',
-                'username_claimed':'red',
-                
-            }
-    
-        }
-
 class MyParser(argparse.ArgumentParser):
     def error(self,message):
         sys.stderr.write('error: %s\n' % message)
@@ -43,7 +16,6 @@ class MyParser(argparse.ArgumentParser):
         if DEVELOPMENT:
             sys.stderr.write('debug: %s\n' % message)
 parser = MyParser()
-websitemanager = WebsiteManager()
 
 
 def web_check(target_object,web_object):
