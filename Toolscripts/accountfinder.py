@@ -2,6 +2,7 @@ import argparse
 import sys
 import requests
 import re
+import json
 
 DEVELOPMENT = '--development' in sys.argv and not '--json' in sys.argv
 JSON_ONLY = '--json' in sys.argv
@@ -74,6 +75,9 @@ def main():
     if not args.t and not WEBSITECHECK:
         parser.error('Please specify an email or username using -e or -u ')
 
+    #Loading in web objects from json file.
+    with open('static\\resources\\accountfinder\\data.json') as json_file:
+        website_objects = json.load(json_file)  
     
     report = {
         'targets':[],
