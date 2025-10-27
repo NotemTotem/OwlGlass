@@ -72,7 +72,11 @@ def main():
 
     if not args.t and not WEBSITECHECK:
         parser.error('Please specify an email or username using -e or -u ')
-
+    if args.cap:
+        #caps the number of websites which can be queried. 
+        webcap = int(args.cap)
+    else:
+        webcap = None
     #Loading in web objects from json file.
     with open('static\\resources\\accountfinder\\data.json') as json_file:
         website_objects = json.load(json_file)  
@@ -92,7 +96,8 @@ def main():
         index+=1
         parser.debug_print(f"Index:{index}, Website:{website}")
         #This lets us set a max number of websites to check before printing the results.
-        if index > 4:
+        
+        if webcap and index > webcap:
             break
         if index == 0:
             #The first entry is just a schema object so we skip this.
@@ -137,7 +142,8 @@ def main():
             if website["accountFound"] == False:
                 print(f"Account found: {website['accountFound']}\nWebsite: https://{website['website']['urlMain']}\nAttempted url: https://{website['attemptedUrl']}")    
 
-parser.add_argument('-t',action='append',help='Target string to find accounts under (email or username)')
+parser.add_argument('-t',action='append',help='Target string to find accounts under. Can be an email or username (required:true)')
+parser.add_argument('-cap',help="Specify a non-zero positive number as a limit to cap number of websites the target string will be checked against (required:false)")
 #parser.add_argument('-w',help="The website(s) to check. comma-seperated (default: all)")
 parser.add_argument('--development',action='store_true',help="Provides additional debugging information during runtime (default: true)")
 parser.add_argument('--json',action='store_true',help="Provides additional debugging information during runtime (default: true)")
