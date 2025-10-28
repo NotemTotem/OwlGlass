@@ -30,7 +30,7 @@ def web_check(target_object,website):
         parser.debug_print(f"targetType of {target_object['targetType']!r} not present in web_check.")
     
     if "headers" in website:
-        headers = website[headers]
+        headers = website['headers']
     else:
         headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0",}
     
@@ -39,7 +39,7 @@ def web_check(target_object,website):
     if website['errorType'] == 'status_code':
         try:
             headers = headers
-            r = requests.get(url,headers=headers)
+            r = requests.head(url,headers=headers)
         except Exception as e:
             parser.debug_print(e)
             return False,url
@@ -47,9 +47,47 @@ def web_check(target_object,website):
             return True,url
         else:
             return False,url
+    elif website['errorType'] == 'message':
+        if type(website['errorMsg']) != str and type(website['errorMsg']) != list:
+            parser.debug_print(f"message type of {type(website['errorMsg'])!r} not currently implemented.")
+            return False,url
+        else:
+            error_message = website['errorMsg']
+            try:
+                headers = headers
+                r = requests.get(url,headers=headers)
+                body = str(r.text)
+            except Exception as e:
+                parser.debug_print(e)
+                return False,url
+            if type(error_message) == str:
+                if error_message not in body:
+                  return True,url
+                else:
+                    return False,url
+            elif type(error_message) == list:
+                for errormsg in error_message:
+                    if errormsg not in body:
+                        continue
+                    else:
+                        return False,url
+                return True,url
+    elif website['errorType'] == 'response_url':
+        error_url = website['errorUrl']
+        try:
+            headers = headers
+            r = requests.get(url,headers=headers)
+        except Exception as e:
+            parser.debug_print(e)
+            return False,url
+        if r.url == error_url:
+            return False,url
+        else:
+            return True,url
     else:
-        parser.debug_print(f"status_code of {website['status_code']!r} not currently implemented.")
+        parser.debug_print(f"Errortype of {website['errorType']!r} not currently implemented.")
 
+    
 def return_target_entry(target_string):
     #Check if target string is an email
     if re.match("[^@]+@[^@]+\\.[^@]+",target_string):
@@ -73,9 +111,9 @@ def return_target_entry(target_string):
 def main():
     #placeholder
     debug_filters = {
-        'enabled':True,
+        'enabled':False,
         'websites':None,
-        'errorTypes':['status_code'],
+        'errorTypes':False,
     }
 
     if args.w:
