@@ -21,26 +21,85 @@
         <div>
             <p style="font-weight: 600; font-size: 2em;text-decoration: underline;">Tool Directory</p>
         </div>
+        <br>
         <div name="toolscripts_container flex-grid" id="toolscripts_container">
             <br>
-            <div name="accountfinder">
-                <a class="btn btn-primary" href="{{url_for('accountfinder')}}">Accountfinder</a>
-            </div>
-            <div name="dnslookup">
-                <a class="btn btn-primary" href="{{url_for('dnslookup')}}">DNSLookup</a>
+            <div name="accountfinder" class="toolcard">
+                <a class="btn btn-primary" href="{{url_for('accountfinder')}}">
+                  Accountfinder
+                </a>
+                <a href="{{url_for('accountfinder')}}">
+                  <p class="toolcard_description">
+                    A tool to find online accounts based on a known username or email address.
+                  <br><br>
+                    Enumerating potential user accounts.
+                  </p>
+                </a>
             </div>
 
-            <div name="portscan">
-                <a class="btn btn-primary" href="{{url_for('port_scanner')}}">Port Scanner</a>
+            <div name="dnslookup" class="toolcard">
+                <a class="btn btn-primary" href="{{url_for('dnslookup')}}">
+                  DNSLookup
+                </a>
+                <a href="{{url_for('dnslookup')}}">
+                  <p class="toolcard_description">
+                    Search for publicly available DNS records based on a known URL.
+                  <br><br>
+                    Find subdomains, mail servers, and other domain assets.
+                  </p>
+                </a>
             </div>
-            <div name="subfuzz">
-                <a class="btn btn-primary" href="{{url_for('sub_fuzzer')}}">sub_fuzz</a>
+
+            <div name="portscan" class="toolcard">
+                <a class="btn btn-primary" href="{{url_for('port_scanner')}}">
+                  Port Scanner
+                </a>
+                <a href="{{url_for('port_scanner')}}">
+                  <p class="toolcard_description">
+                    Scan server ports.
+                  <br><br>
+                    Find other running services that may be vulnerable or discover hidden HTTP services.
+                  </p>
+                </a>
             </div>
-            <div name="vhostfuzz">
-                <a class="btn btn-primary" href="{{url_for('vhost_fuzzer')}}">vhost_fuzz</a>
+
+            <div name="subfuzz" class="toolcard">
+                <a class="btn btn-primary" href="{{url_for('sub_fuzzer')}}">
+                  sub_fuzz
+                </a>
+                <a href="{{url_for('sub_fuzzer')}}">
+                  <p class="toolcard_description">
+                    Fuzz for hidden subdomains.
+                  <br><br>
+                    Find new functionality to grow attack surface.
+                  </p>
+                </a>
             </div>
-            <div name="dirfuzz">
-                <a class="btn btn-primary" href="{{url_for('dir_fuzzer')}}">dir_fuzz</a>
+
+            <div name="vhostfuzz" class="toolcard">
+                <a class="btn btn-primary" href="{{url_for('vhost_fuzzer')}}">
+                  vhost_fuzz
+                </a>
+                <a href="{{url_for('vhost_fuzzer')}}">
+                  <p class="toolcard_description">
+                    Fuzz for hidden Vhosts.
+                  <br><br>
+                    Grow attack surface that is not available in DNS records.
+                  </p>
+                </a>
+            </div>
+
+            <div name="dirfuzz" class="toolcard">
+                <a class="btn btn-primary" href="{{url_for('dir_fuzzer')}}">
+                  dir_fuzz
+                </a>
+                <a href="{{url_for('dir_fuzzer')}}">
+                  <p class="toolcard_description">
+                    Fuzz for hidden directories.
+                  <br><br>
+                    Grow attack surface and find hidden endpoints or pages.
+                  </p>
+                </a>
             </div>
         </div>
     </div>
