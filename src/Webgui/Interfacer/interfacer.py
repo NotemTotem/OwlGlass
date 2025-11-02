@@ -1,22 +1,31 @@
 import os
+from pathlib import Path
+from sys import platform
+if platform == 'linux' or platform == 'linux2':
+    python_location = '.venv/bin/python'
+else:
+    python_location = '.venv/Scripts/python.exe'
+python_location = Path(python_location)
 
-def find_accounts(target,type):
-    if type and type =="email":
-        command = f'''.venv\\Scripts\\python.exe "Toolscripts\\accountfinder.py" -e "{target}"'''
-        e = os.popen(command)
-        output = e.readlines()
-        return output
+def find_accounts(target):
+    toolscript_location = Path("Toolscripts/accountfinder.py")
+    command = f'''{python_location} {toolscript_location} -t "{target} -cap 10"'''
+    e = os.popen(command)
+    output = e.readlines()
+    return output
 
 
 def scan_ports(target, ports):
-    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\portscan.py" -a "{target}" -p "{ports}"'''
+    toolscript_location = Path("Toolscripts/portscan.py")
+    command = f'''{python_location} {toolscript_location} -a "{target}" -p "{ports}"'''
     e = os.popen(command)
     output = e.readlines()
     print(output)
     return output
 
 def dns_lookup(target, dns_records, depth):
-    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\DNSLookerUpper.py" {target} {" ".join(f"--{dns}" for dns in dns_records)} -d {depth}'''
+    toolscript_location = Path("Toolscripts/DNSLookerUpper.py")
+    command = f'''{python_location} {toolscript_location} {target} {" ".join(f"--{dns}" for dns in dns_records)} -d {depth}'''
     print(command)
     e = os.popen(command)
     output = e.readlines()
@@ -24,7 +33,8 @@ def dns_lookup(target, dns_records, depth):
     return output
 
 def fuzz_dirs(target, recursion_depth, port):
-    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\dirfuzz.py" -u {target} -p {port} -d {recursion_depth} '''
+    toolscript_location = Path("Toolscripts/dirfuzz.py")
+    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} '''
     print(command)
     e = os.popen(command)
     output = e.readlines()
@@ -33,7 +43,8 @@ def fuzz_dirs(target, recursion_depth, port):
 
 
 def fuzz_subs(target, recursion_depth, port):
-    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\dirfuzz.py" -u {target} -p {port} -d {recursion_depth} --subdomain'''
+    toolscript_location = Path("Toolscripts/dirfuzz.py")
+    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --subdomain'''
     print(command)
     e = os.popen(command)
     output = e.readlines()
@@ -41,7 +52,8 @@ def fuzz_subs(target, recursion_depth, port):
     return output
 
 def fuzz_vhosts(target, recursion_depth, port):
-    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\dirfuzz.py" -u {target} -p {port} -d {recursion_depth} --vhost '''
+    toolscript_location = Path("Toolscripts/dirfuzz.py")
+    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --vhost '''
     print(command)
     e = os.popen(command)
     output = e.readlines()
