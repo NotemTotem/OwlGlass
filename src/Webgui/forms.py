@@ -9,11 +9,6 @@ class AccountfinderForm(FlaskForm):
     cap = StringField("Cap",render_kw={"placeholder": "max number of websites target will be checked against"})
     #submit = SubmitField("Submit")
 
-    def validate_target(form,field):
-        if form.target_type.data == 'email':
-            if not('@' in (field.data) and '.' in field.data.split('@')[1] and len(field.data.split('@')[0]) >0):
-                raise ValidationError("Not a valid email.")
-
 
 class dnslookupForm(FlaskForm):
     target = StringField("Target", validators=[DataRequired()], render_kw={"placeholder": "Target website or subdomain"})

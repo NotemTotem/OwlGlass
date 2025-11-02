@@ -1,5 +1,5 @@
 {% macro render_input(tool_name,form,response='') %}
-
+{% from 'root/macros.html' import render_field %}
 
 
 <!-- tool input params -->
@@ -15,31 +15,16 @@
                 <p class="block-header-text">Port Scanner</p>
                 {% elif tool_name == "dnslookup" %}
                     <p class="block-header-text">DNSLookup</p>
-
+                
                 {% endif %}
             </div>
             <pre class="toolscript-form-pre">
                 <form method="post" class="toolform">
                     {%if tool_name == "accountfinder"%}
-                        {% for field in form%}
                         <div>
-                            {{field.label(class='form-control-label')}}
-                            {% if field.errors %}
-                                {{field(class='form-control is-invalid')}}
-                                <div class="invalid-feedback">
-                                {% for error in field.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                                </div>
-                            {% else %}
-                                {% if field.type == "BooleanField" %}
-                                    {{field()}}
-                                {% else %}
-                                    {{field(class='form-control')}}
-                                {% endif %}
-                            {% endif %}
+                            {{render_field(form.target,class='form-control')}}
+                            <!-- {{render_field(form.cap,class='form-control')}} -->
                         </div>
-                        {% endfor %}
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {%elif tool_name == "dnslookup"%}

@@ -5,16 +5,14 @@ if platform == 'linux' or platform == 'linux2':
     python_location = '.venv/bin/python'
 else:
     python_location = '.venv/Scripts/python.exe'
-
 python_location = Path(python_location)
 
-def find_accounts(target,type):
+def find_accounts(target):
     toolscript_location = Path("Toolscripts/accountfinder.py")
-    if type and type =="email":
-        command = f'''{python_location} {toolscript_location} -e "{target}"'''
-        e = os.popen(command)
-        output = e.readlines()
-        return output
+    command = f'''{python_location} {toolscript_location} -t "{target} -cap 10"'''
+    e = os.popen(command)
+    output = e.readlines()
+    return output
 
 
 def scan_ports(target, ports):

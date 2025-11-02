@@ -20,9 +20,7 @@ def accountfinder():
     #Validating form upon submission
     if form.validate_on_submit():
         target = form.target.data
-        target_type = form.target_type.data
-        print(target,target_type)
-        response = interfacer.find_accounts(target,target_type)
+        response = interfacer.find_accounts(target)
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))
