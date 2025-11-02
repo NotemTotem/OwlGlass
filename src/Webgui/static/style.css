@@ -208,3 +208,15 @@ p {
     display: flex;
     flex-direction: column;
 }
+/* dnslookup checkbox stuff */
+/* this targets the container containing all the checkboxes */
+dd ul {
+    list-style: none;
+    padding: 5px!important;
+    margin: 0!important;
+}
+/* editing this will change checkboxes */
+dd ul li input {
+    cursor: pointer;
+}
+/* end of dnslookup checkbox stuff */

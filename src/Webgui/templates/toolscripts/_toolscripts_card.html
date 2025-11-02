@@ -29,43 +29,13 @@
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {%elif tool_name == "dnslookup"%}
                         <div>
-                            {{form.target.label(class='form-control-label')}}
-                            {% if form.target.errors %}
-                                {{form.target(class='form-control is-invalid')}}
-                                <div class="invalid-feedback">
-                                {% for error in form.target.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                                </div>
-                            {% else %}
-                                {{form.target(class='form-control')}}
-                            {% endif %}
-                        </div>
-                        <div>
-                        {{form.my_choices.label(class='form-control-label')}}
-                        {% if form.my_choices.errors %}
-                            {{form.my_choices(class='form-control is-invalid')}}
-                            <div class="invalid-feedback">
-                            {% for error in form.my_choices.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
+                            {{render_field(form.target,class='form-control')}}
+                            {{form.my_choices.label(class='form-control-label')}}
+                            <div style="overflow-y: scroll;height: 200px;">
+                                {{render_field(form.my_choices,show_label=False)}}
                             </div>
-                            {% else %}
-                                {{form.my_choices(class='form-control')}}
-                            {% endif %}
-                        </div>
-                        <div>
-                        {{form.depth.label(class='form-control-label')}}
-                        {% if form.depth.errors %}
-                            {{form.depth(class='form-control is-invalid')}}
-                            <div class="invalid-feedback">
-                            {% for error in form.depth.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
-                            </div>
-                            {% else %}
-                                {{form.depth(class='form-control')}}
-                            {% endif %}
+                            
+                            {{render_field(form.depth,class='form-control')}}
                         </div>
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
