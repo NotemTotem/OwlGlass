@@ -14,7 +14,6 @@ def queryDns(target_domain, recursion_count, timeout):
         target_info = {}
         for record_type in record_types:
             # Perform DNS lookup for the specified domain and record type
-            print(record_type)
             result_info = []
             try:
                 answers = resolver.resolve(target_domain, record_type)

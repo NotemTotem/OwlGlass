@@ -28,4 +28,4 @@ echo -
 powershell -Command "Write-Host 'Setup complete.' -ForegroundColor Green"
 echo -
 echo -
-cmd /k ".venv\Scripts\python.exe src\Webgui\webgui.py" 
+cmd /k ".venv\bin\python.exe src\Webgui\webgui.py" 

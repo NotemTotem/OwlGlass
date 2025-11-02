@@ -1,2 +1,2 @@
-set "venv_path=%CD%\.venv\Scripts\activate.bat"
+set "venv_path=%CD%\.venv\bin\activate"
 cmd /k "%venv_path%"
