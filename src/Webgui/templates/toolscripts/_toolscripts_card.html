@@ -54,6 +54,19 @@
                                 {{form.my_choices(class='form-control')}}
                             {% endif %}
                         </div>
+                        <div>
+                        {{form.depth.label(class='form-control-label')}}
+                        {% if form.depth.errors %}
+                            {{form.depth(class='form-control is-invalid')}}
+                            <div class="invalid-feedback">
+                            {% for error in form.depth.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                                {{form.depth(class='form-control')}}
+                            {% endif %}
+                        </div>
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
