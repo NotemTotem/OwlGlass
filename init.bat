@@ -11,13 +11,19 @@ echo -
 echo -
 python -m venv .venv
 )
+if exist .venv\Scripts\ (
+  set "venv_path=%CD%\.venv\Scripts" 
+) else (
+  set "venv_path=%CD%\.venv\bin" 
+)
+
 if exist pyproject.toml (
 echo -
 echo -
 powershell -Command "Write-Host 'Requirements file found. Compiling and syncing packages.' -ForegroundColor Green"
 echo -
 echo -
-.venv\Scripts\pip.exe install .  
+%venv_path%\pip.exe install .  
 ) else (
 echo -
 echo -
@@ -28,4 +34,4 @@ echo -
 powershell -Command "Write-Host 'Setup complete.' -ForegroundColor Green"
 echo -
 echo -
-cmd /k ".venv\bin\python.exe src\Webgui\webgui.py" 
+cmd /k "%venv_path%\python.exe src\Webgui\webgui.py" 
