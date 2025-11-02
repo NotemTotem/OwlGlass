@@ -15,8 +15,8 @@ def scan_ports(target, ports):
     print(output)
     return output
 
-def dns_lookup(target, dns_records):
-    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\DNSLookerUpper.py" {target} {" ".join(f"--{dns}" for dns in dns_records)}'''
+def dns_lookup(target, dns_records, depth):
+    command = f'''.venv\\Scripts\\python.exe "Toolscripts\\DNSLookerUpper.py" {target} {" ".join(f"--{dns}" for dns in dns_records)} -d {depth}'''
     print(command)
     e = os.popen(command)
     output = e.readlines()
