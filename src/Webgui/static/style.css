@@ -190,3 +190,6 @@ p {
 .toolcard_description {
   font-size: 14px
 }
+
+[type="checkbox"] {
+}

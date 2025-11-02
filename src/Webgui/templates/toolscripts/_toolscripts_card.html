@@ -21,32 +21,25 @@
             <pre class="toolscript-form-pre">
                 <form method="post" class="toolform">
                     {%if tool_name == "accountfinder"%}
+                        {% for field in form%}
                         <div>
-                            {{form.target.label(class='form-control-label')}}
-                            {% if form.target.errors %}
-                                {{form.target(class='form-control is-invalid')}}
+                            {{field.label(class='form-control-label')}}
+                            {% if field.errors %}
+                                {{field(class='form-control is-invalid')}}
                                 <div class="invalid-feedback">
-                                {% for error in form.target.errors %}
+                                {% for error in field.errors %}
                                     <span>{{error}}</span>
                                 {% endfor %}
                                 </div>
                             {% else %}
-                                {{form.target(class='form-control')}}
+                                {% if field.type == "BooleanField" %}
+                                    {{field()}}
+                                {% else %}
+                                    {{field(class='form-control')}}
+                                {% endif %}
                             {% endif %}
                         </div>
-                        <div>
-                        {{form.target_type.label(class='form-control-label')}}
-                        {% if form.target_type.errors %}
-                            {{form.target_type(class='form-control is-invalid')}}
-                            <div class="invalid-feedback">
-                            {% for error in form.target_type.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
-                            </div>
-                            {% else %}
-                                {{form.target_type(class='form-control')}}
-                            {% endif %}
-                        </div>
+                        {% endfor %}
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {%elif tool_name == "dnslookup"%}

@@ -1,12 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField,SelectField,ValidationError, SelectMultipleField
+from wtforms import StringField, SubmitField,SelectField,ValidationError, SelectMultipleField,BooleanField
 from wtforms.validators import DataRequired
 
 #Accountfinder form class
 class AccountfinderForm(FlaskForm):
     target = StringField("Target",validators=[DataRequired()],render_kw={"placeholder": "Target's username or email"})
-    target_type = SelectField("Target Type",choices=['username','email'])
-    submit = SubmitField("Submit")
+    cap_toggle = BooleanField("Enable")
+    cap = StringField("Cap",render_kw={"placeholder": "max number of websites target will be checked against"})
+    #submit = SubmitField("Submit")
 
     def validate_target(form,field):
         if form.target_type.data == 'email':
