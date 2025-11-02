@@ -23,6 +23,7 @@ class dnslookupForm(FlaskForm):
 
     target = StringField("Target", validators=[DataRequired()], render_kw={"placeholder": "Target website or subdomain"})
     record_type_choices = [
+        ("ALL", "ALL"),
         ("A", "A (Host Address)"),
         ("NS", "NS (Name Server)"),
         ("MD", "MD (Mail Destination )"),
