@@ -30,7 +30,7 @@ def scan_ports(target, ports):
 def dns_lookup(target, dns_records, depth):
     toolscript_location = Path("Toolscripts/DNSLookerUpper.py")
     if depth == "":
-        depth = 1
+        depth = 0
     command = f'''"{python_location}" {toolscript_location} {target} {" ".join(f"--{dns}" for dns in dns_records)} -d {depth}'''
     print(command)
     e = os.popen(command)

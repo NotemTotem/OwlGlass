@@ -151,7 +151,9 @@ if args.ALL:
 #remove everything but dns record types
 #make it cleaner later
 first_key = next(iter(arg_dict))
-arg_dict.pop(first_key)
+
+#remove non-dns arguments
+arg_dict.pop(first_key) #target
 arg_dict.popitem() #-x
 arg_dict.popitem() #-r
 arg_dict.popitem() #-t
