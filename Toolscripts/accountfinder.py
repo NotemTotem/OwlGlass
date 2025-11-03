@@ -3,7 +3,7 @@ import sys
 import requests
 import re
 import json
-
+from pathlib import Path
 DEVELOPMENT = '--development' in sys.argv and not '--json' in sys.argv
 JSON_ONLY = '--json' in sys.argv
 WEBSITECHECK = '--websitecheck' in sys.argv
@@ -131,7 +131,7 @@ def main():
     else:
         webcap = None
     #Loading in web objects from json file.
-    with open('static\\resources\\accountfinder\\data.json') as json_file:
+    with open(Path('static/resources/accountfinder/data.json')) as json_file:
         website_objects = json.load(json_file)  
         #The first entry is just a schema object so we skip this.
         website_objects.pop('$schema')
