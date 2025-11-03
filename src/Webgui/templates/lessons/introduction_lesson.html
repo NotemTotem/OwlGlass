@@ -1,0 +1,68 @@
+{% extends '/root/base.html' %}
+{% block title %}Accountfinder - lesson{% endblock title %}
+
+{% block content %}
+    <div class="learn_container">
+        <p>
+
+          <h1>Intro to cybersecurity</h1>
+          <p><strong>Index</strong></p>
+          <ul>
+          <li>Learning Journey</li>
+          <ul>
+          <li>OSINT - Account finder</li>
+          <li>Network Enumeration - Port Scanner</li>
+          <li>Website Enumeration - Subdomain and Vhost Fuzzing</li>
+          <li>Website Enumeration - Directory fuzzing</li>
+          <li>Website Enumeration - DNS Lookup</li>
+          <li>Whats Next? - How to Study Hacking</li>
+          </ul>
+          </ul>
+          <p><strong>Glossary</strong></p>
+          <p><strong>Access-lists</strong> - Network rules that allow or deny traffic based on IPs, ports, or protocols.</p>
+          <p><strong>API - </strong>A program which allows different applications to communicate and exchange data.</p>
+          <p><strong>Payload</strong> - The variable part of a request (e.g., a filename or path) that the fuzzer replaces when probing a server.</p>
+          <p><strong>Bug Bounty Program (BBP)</strong> - A program where organizations invite security researchers to find and report vulnerabilities, sometimes with payment.</p>
+          <p><strong>Burp Suite</strong> - A web-application testing tool (interceptor/proxy and scanner used by testers).</p>
+          <p><strong>Data breach / pwned</strong> - When account credentials or personal data are exposed publicly; &ldquo;pwned&rdquo; means included in such a breach.</p>
+          <p><strong>Directory Fuzzing</strong> - Automated testing that requests many possible directory or file paths to discover hidden pages on a website.</p>
+          <p><strong>DNS / Domain Name Service</strong> - The protocol/service that translates human-readable domain names to IP addresses.</p>
+          <p><strong>DNS Lookup</strong> - Querying DNS servers to retrieve DNS records (A, MX, TXT, NS, etc.) for a domain.</p>
+          <p><strong>Domain</strong> - A name registered on the Internet (e.g., google.com) that DNS maps to IPs and services.</p>
+          <p><strong>Email / MX record</strong> - A DNS record that lists which mail servers accept email for a domain (e.g., smtp.google.com as a mail host).</p>
+          <p><strong>Enterprise networks</strong> - Organizational networks that typically use firewalls and access-lists to protect internal resources.</p>
+          <p><strong>Enumeration </strong>- Systematic discovery of hosts, directories, DNS records, accounts, or other information about a target or scope.</p>
+          <p><strong>Firewall</strong> - Network device or software that filters traffic according to configured rules.</p>
+          <p><strong>Fuzzing</strong> - Automated testing that feeds many inputs (e.g., file paths, subdomains) to a service to discover unexpected behavior or hidden resources.</p>
+          <p><strong>Have I Been Pwned</strong> - A public service to check whether an email or account appears in known data breaches.</p>
+          <p><strong>HackerOne / Bugcrowd</strong> - Platforms that host bug bounty programs where researchers report vulnerabilities to organizations.</p>
+          <p><strong>IP address</strong> - Numerical address that identifies a host on a network (e.g., 15.197.167.90).</p>
+          <p><strong>Kali Linux / Parrot OS</strong> - Linux distributions commonly used for penetration testing and security research.</p>
+          <p><strong>Nmap</strong> - Network scanning tool used to discover hosts, ports, and services.</p>
+          <p><strong>OSINT (Open Source Intelligence)</strong> - Collecting information from publicly available sources (e.g., DNS, social media, public records).</p>
+          <p><strong>Organization profile </strong>- Building a profile of a person or organization from public data, often to find accounts or contacts.</p>
+          <p><strong>Payload</strong> - The part of a request that changes during fuzzing.</p>
+          <p><strong>Phishing / Social engineering</strong> - Techniques that manipulate people into revealing information or performing actions.</p>
+          <p><strong>Portswigger Web Security Academy</strong> - Learning platform for web application security training.</p>
+          <p><strong>Public information</strong> - Data that is publicly accessible (e.g., DNS records, social posts, sitemaps).</p>
+          <p><strong>Robots.txt</strong> - A web file that tells web crawlers which pages to avoid indexing.</p>
+          <p><strong>Scanning</strong> - The act of probing systems (e.g., with Nmap or directory fuzzers) to identify services and responses.</p>
+          <p><strong>Scope </strong>- The set of systems, networks, applications, domains, or other assets that are authorized for testing or attack during a penetration test.&nbsp;</p>
+          <p><strong>Sitemap.xml</strong> - An XML file listing pages on a site to help search engines index content.</p>
+          <p><strong>smtp.google.com</strong> - Example mail host used in the activity to demonstrate MX records.</p>
+          <p><strong>Subdomain </strong>- A subsection of a domain which contains its own unique functionality.</p>
+          <p><strong>Target </strong>- The domain, URL, or email chosen for testing (e.g., google.com or your email in HaveIBeenPwned).</p>
+          <p><strong>TryHackMe / Hack The Box Academy</strong> - Practical labs for developing offensive security skills.</p>
+          <p><strong>Vulnerability Disclosure Program (VDP)</strong> - A process for reporting vulnerabilities for potential rewards.</p>
+          <p><strong>Web directories</strong> - Collections of pages and paths on a website (analogous to a filesystem).</p>
+          <p><strong>Well-known / .well-known/security.txt</strong> - A standardized path (.well-known/security.txt) where a domain can publish security contact information.</p>
+          <p><strong>What is cybersecurity?</strong></p>
+          <p>Cybersecurity is the practice of protecting networks, applications, websites and data from malicious actors. There are many branches of cybersecurity with the main two being offensive and defensive often referred to as red and blue teaming.&nbsp;</p>
+          <p>Offensive security or red teaming is the act of attempting to find and exploit misconfigurations and logic flaws in the assets of an application or network. The target of this act is to find sensitive and valuable data, not otherwise revealed to the public. Numerous techniques such as SQL injections, XSS, command injections, request forgeries, certificate forgeries and many more can be used to gain unauthorized access to networks and applications, resulting in data breaches and hostage situations. Therefore, enterprises will often have their own team of offensive security experts in order to try and find these vulnerabilities bad actors are able to, and thus protect themselves from attacks.&nbsp;</p>
+          <p>Defensive cybersecurity or blue teaming is the act of strengthening your data security and making it harder for attackers to find and exploit vulnerabilities. This includes analysing network traffic to monitor for potential attacks, administrating domains and servers in organisations, and much more. Defensive cybersecurity experts are also often required to respond to cyberattacks and patch any vulnerable services immediately after an attack to limit the impact on the company. It is important to understand the basics of the defensive team in order to become a successful attacker, and without the blue team the world net would be full of malicious threat actors and stolen data.</p>
+          <p>In our learning journey, we will be focusing on the offensive side of cybersecurity with lessons centered around reconnaissance, profiling and enumeration.&nbsp;</p>
+          <p><br /><br /><br />
+
+        </p>
+    </div>
+{% endblock content %}
