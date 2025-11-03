@@ -1,0 +1,57 @@
+{% extends '/root/base.html' %}
+{% block title %}Accountfinder - lesson{% endblock title %}
+
+{% block content %}
+    <div class="learn_container">
+        <p>
+<p><strong>What is DNS?</strong><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">DNS or Domain Name Service is a network protocol that translates IP addresses 15.197.167.90, to human readable strings such as </span><a href="http://playvalorant.com"><span style="font-weight: 400;">playvalorant.com</span></a><span style="font-weight: 400;">. While the computer may understand an IP address, humans find this random assortment of numbers difficult to remember. Therefore, DNS allows everyone to access the website they want reliably without having to put in much effort.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><strong>What is DNS? ..extended</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">When you hit enter in the search bar, your computer initiates a DNS query to the closest DNS server, translating your human readable input to an IP address. This DNS server will provide another IP address to a closer DNS server and this process repeats until you reach the correct webserver.</span></p>
+<p>&nbsp;</p>
+<p><strong>What is a DNS Lookup?</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">A DNS lookup is an enumeration technique that increases your attack surface by querying the DNS servers of a domain for extra information. Although most enterprise networks are correctly configured with access-lists and firewalls to not allow non-public information to leak, even publicly available DNS information can be valuable in finding extra attack vectors.</span></p>
+<p>&nbsp;</p>
+<p><strong>How can we utilise the enumerated information?</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Most vulnerabilities come from logic flaws and misconfigurations. By increasing our attack surface, the possibility of finding sensitive information, misconfigured endpoints, or vulnerable functionalities in the target scope increases exponentially as it is in human nature to make mistakes. &ldquo;Hacking&rdquo; is all about exploiting these mishaps and oversights. As such, the possibilities of using enumerated information comes down to your creativity, intuition and experience.</span></p>
+<p>&nbsp;</p>
+<p><strong>Activity</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Go to the DNS lookup tool and familiarise yourself with its flags, options and outputs. If required, visit the tutorial for the tool.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">To test your knowledge of the tool, target </span><a href="http://google.com"><span style="font-weight: 400;">google.com</span></a><span style="font-weight: 400;"> and answer the following questions:</span></p>
+<p><br /><br /></p>
+<p><strong>How many name servers does the target have?</strong></p>
+<p><span style="font-weight: 400;" onclick="toggleText(this)" id="4"onmouseover="this.style.cursor='pointer'">Click to reveal answer</span></p>
+<p>&nbsp;</p>
+<p><strong>How many IP addresses translate to </strong><a href="http://smtp.google.com"><strong>smtp.google.com</strong></a><strong>?</strong></p>
+<p><span style="font-weight: 400;" id="5" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</span></p>
+<p>&nbsp;</p>
+<p><strong>What is the type of the record that holds </strong><a href="http://smtp.google.com" ><strong>smtp.google.com</strong></a><strong> and what is it used for?</strong></p>
+<p><span style="font-weight: 400;" onclick="toggleText(this)" id="MX records are used to specify which mail servers are responsible for the domain" onmouseover="this.style.cursor='pointer'">Click to reveal answer</span></p>
+<p>&nbsp;</p>
+<p><strong>How many zone transfers are successful against the target?</strong></p>
+<p><span style="font-weight: 400;" id="0" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</span></p>
+<p>&nbsp;</p>
+
+
+    </div>
+<script>
+document.getElementsByClass('answer').style.display = 'none'
+
+function toggleText(element) {
+    console.log(element)
+    if (element.innerHTML === 'Click to reveal answer') {
+        element.innerHTML = element.id;
+    } 
+    else {
+        element.innerHTML = 'Click to reveal answer';
+    }
+}
+
+</script>
+{% endblock content %}
+
