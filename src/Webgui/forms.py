@@ -12,7 +12,6 @@ class MultiCheckboxField(SelectMultipleField):
 #Accountfinder form class
 class AccountfinderForm(FlaskForm):
     target = StringField("Target",validators=[DataRequired()],render_kw={"placeholder": "Target's username or email"})
-    cap_toggle = BooleanField("Enable")
     cap = StringField("Cap",render_kw={"placeholder": "max number of websites target will be checked against"})
     #submit = SubmitField("Submit")
 

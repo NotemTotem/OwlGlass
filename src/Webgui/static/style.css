@@ -220,3 +220,7 @@ dd ul li input {
     cursor: pointer;
 }
 /* end of dnslookup checkbox stuff */
+
+#toolscript_output {
+    overflow-y: scroll;
+}

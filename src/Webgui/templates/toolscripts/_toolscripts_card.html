@@ -7,7 +7,7 @@
     <div name="left" style="height: 100%;">
     <mdn-block-header class="mdn-block-header">
 
-        <div name="block-simple" class="block-simple">
+        <div name="block-simple" class="block-simple" id="toolscript_form">
             <div name="left" class="block-header">
                 {% if tool_name == "accountfinder" %}
                     <p class="block-header-text">Account Finder</p>
@@ -29,6 +29,11 @@
                     {%if tool_name == "accountfinder"%}
                         <div>
                             {{render_field(form.target,class='form-control')}}
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            
+                            {{render_field(form.cap,class='form-control')}}
+
                             <!-- {{render_field(form.cap,class='form-control')}} -->
                         </div>
                         <!-- {{form.submit}} -->
@@ -75,16 +80,18 @@
     </div>
     <div name="right">
     <mdn-block-header class="mdn-block-header">
-
-        <div name="block-simple" class="block-simple">
+        {% if response %}
+            
+        {% endif %}
+        <div name="block-simple" class="block-simple" id="output">
             <div class="block-header">
                 <p class="block-header-text">Output</p>
             </div>
             <pre class="toolscript-form-pre">
                 <div class="toolform">
                     <text style="display: flex; flex-direction:column;" id="output-t">
-                        {% if response%}
-                            <span>
+                        {% if response %}
+                            <span id="output-text">
                                 {{response | safe}}
                             </span>
                         {% endif %}
@@ -96,4 +103,14 @@
     </div>
 </div>
 <!-- tool output -->
+<script>
+    let form_container = document.getElementById('toolscript_form')
+    let output_container = document.getElementById('output')
+    const max_height = form_container.offsetHeight;
+    output_container.style.maxHeight = max_height + 'px'
+    if (checkVerticalOverflow(output_container)) {
+        console.log("Overflowing!!!!")
+    }
+</script>
 {% endmacro %}
+
