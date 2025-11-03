@@ -89,12 +89,12 @@ class dnslookupForm(FlaskForm):
     depth = StringField("Search Depth", render_kw={"placeholder": "Depth of Recursion"})
     if depth == " ":
         depth = "1"
-    
+
 
 
 class port_scanner_form(FlaskForm):
     target = StringField("Target Address", validators=[DataRequired()], render_kw={"placeholder": "Target URL or IP Adress"})
-    ports = StringField("Ports", validators=[DataRequired()], render_kw={"placeholder": "Target Ports to Scan"})
+    ports = StringField("Ports (max 65,535)", validators=[DataRequired()], render_kw={"placeholder": "Target Ports to Scan"})
     submit = SubmitField("Submit")
 
 
@@ -102,3 +102,7 @@ class fuzzer_form(FlaskForm):
     target = StringField("Target URL", validators=[DataRequired()], render_kw={"placeholder": "Target URL or IP Adress"})
     port = StringField("Port", render_kw={"placeholder": "Port of web server"})
     depth = StringField("Recursion Depth", validators=[DataRequired()], render_kw={"placeholder": "Depth of recursion"})
+
+    def validate_port(form, port):
+        if int(port.data) not in range(0, 65536):
+            raise ValidationError('Port must be in range 0-65535')
