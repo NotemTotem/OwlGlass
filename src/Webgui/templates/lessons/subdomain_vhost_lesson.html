@@ -17,36 +17,51 @@
           <iframe width="192" height="108" src="https://youtu.be/-7Xfd8vLOsc">
           </iframe>
 
-          <p>What is a HTTP request&nbsp;</p>
-          <p>A HTTP request is the data that your browser sends every time it talks to a website. HTTP is a request/response protocol meaning every request you send to a server is met with a response.&nbsp;</p>
+          <h2>What is a HTTP request&nbsp;</h2>
+          <p>A HTTP request is the data that your browser sends every time it talks to a website. HTTP is a request/response protocol meaning every request you send to a server is met with a response.&nbsp;</p><br>
           <p><br /><br /></p>
-          <p>The start line contains information about the type of request we are sending, which part of the server we are sending it to, and what protocol we are using to send it. The number in the response here is called a response code and can be used to tell our browser whether the request was successful and what the server is doing with the request.&nbsp;</p>
-          <p>Click this link to learn more about HTTP response codes</p>
-          <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status">https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status</a></p>
-          <p>The headers contain information about the request or response itself. This is stuff like the length of our data, the type of data, where we are sending it from, and tokens that authenticate requests.</p>
-          <p>The body is where the actual data is sent. This might be login information for a website or the code for our browser to display a website.</p>
-          <p><br /><br /></p>
-          <p>What is fuzzing</p>
-          <p>Fuzzing is a testing methodology where we repeatedly send a request to a server but change a small part of the request each time. The part we change is called the payload, and where we place the payload can determine what type of fuzzing we are doing. The payload for each request is selected from a predetermined wordlist. A common set of wordlists for fuzzing can be found at <a href="https://github.com/danielmiessler/SecLists">https://github.com/danielmiessler/SecLists</a></p>
-          <p>In our case we change either the URL that we send the request to (subdomain fuzzer) or we change the host header (vhost fuzzing).&nbsp;</p>
-          <p>What are subdomains and vhosts</p>
-          <p>Subdomains are ways that web apps can separate different functionalities. For example <a href="http://images.google.com">images.google.com</a> is where you can find cat images on google, and <a href="http://maps.google.com">maps.google.com</a> is how you can find directions to the nearest place to adopt a kitten.&nbsp;</p>
-          <p>There are two main ways that servers can do this:</p>
-          <p>Vhosts</p>
-          <p>Short for virtual host and this is one server that contains both subdomains and uses the &ldquo;Host: &ldquo; header in the http request to tell which subdomain to send the request to. The payload for our fuzzing happens in this section for the vhost fuzzer.</p>
-          <p>Subdomains</p>
-          <p>Subdomains use different DNS records to point to a different IP address that has a separate server for that subdomain. To learn more about DNS&nbsp;</p>
-          <p>The payload of our fuzzing is in the URL we send the request to for the subdomain fuzzer.</p>
-          <p>Activity&nbsp;</p>
-          <p>Look for a bug bounty program on <a href="http://hackerone.com">hackerone.com</a> (or you can use <a href="http://google.com">google.com</a>) and then test the subdomain fuzzer tool on their URL. Familiarise yourself with the tool and then try to answer the following questions.</p>
+          <p>The start line contains information about the type of request we are sending, which part of the server we are sending it to, and what protocol we are using to send it. The number in the response here is called a response code and can be used to tell our browser whether the request was successful and what the server is doing with the request.&nbsp;</p><br>
+          <p>Click this link to learn more about HTTP response codes</p><br>
+          <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status">https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status</a></p><br>
+          <p>The headers contain information about the request or response itself. This is stuff like the length of our data, the type of data, where we are sending it from, and tokens that authenticate requests.</p><br>
+          <p>The body is where the actual data is sent. This might be login information for a website or the code for our browser to display a website.</p><br>
+          <p></p>
+          <h2>What is fuzzing</h2><br>
+          <p>Fuzzing is a testing methodology where we repeatedly send a request to a server but change a small part of the request each time. The part we change is called the payload, and where we place the payload can determine what type of fuzzing we are doing. The payload for each request is selected from a predetermined wordlist. A common set of wordlists for fuzzing can be found at <a href="https://github.com/danielmiessler/SecLists">https://github.com/danielmiessler/SecLists</a></p> <br>
+          <p>In our case we change either the URL that we send the request to (subdomain fuzzer) or we change the host header (vhost fuzzing).&nbsp;</p><br>
+          <h2>What are subdomains and vhosts</h2>
+          <p>Subdomains are ways that web apps can separate different functionalities. For example <a href="http://images.google.com">images.google.com</a> is where you can find cat images on google, and <a href="http://maps.google.com">maps.google.com</a> is how you can find directions to the nearest place to adopt a kitten.&nbsp;</p><br>
+          <p>There are two main ways that servers can do this:</p><br>
+          <h2>Vhosts</h2>
+          <p>Short for virtual host and this is one server that contains both subdomains and uses the &ldquo;Host: &ldquo; header in the http request to tell which subdomain to send the request to. The payload for our fuzzing happens in this section for the vhost fuzzer.</p><br>
+          <h2>Subdomains</h2>
+          <p>Subdomains use different DNS records to point to a different IP address that has a separate server for that subdomain. To learn more about DNS&nbsp;</p><br>
+          <p>The payload of our fuzzing is in the URL we send the request to for the subdomain fuzzer.</p><br>
+          <h2>Activity&nbsp;</h2>
+          <p>Look for a bug bounty program on <a href="http://hackerone.com">hackerone.com</a> (or you can use <a href="http://google.com">google.com</a>) and then test the subdomain fuzzer tool on their URL. Familiarise yourself with the tool and then try to answer the following questions.</p><br>
           <p>What code is returned for subdomain <a href="http://mail.google.com">mail.google.com</a> ?</p>
-          <p><strong>200</strong></p>
+          <p><strong id="200" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p><br>
           <p>What subdomain for <a href="http://google.com">google.com</a> fits the following ed_____on<a href="http://.google.com">.google.com</a> (hint: use ctrl+f to filter output)</p>
-          <p><strong>education.google.com</strong></p>
+          <p><strong id="education.google.com" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p><br>
           <p>Where does <a href="http://account.google.com">account.google.com</a> redirect to?</p>
-          <p><strong>myaccount.google.com</strong></p>
+          <p><strong id="myaccount.google.com" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p>
           <p><br /><br /></p>
 
         </p>
     </div>
+    
+    <script>
+document.getElementsByClass('answer').style.display = 'none'
+
+function toggleText(element) {
+    console.log(element)
+    if (element.innerHTML === 'Click to reveal answer') {
+        element.innerHTML = element.id;
+    } 
+    else {
+        element.innerHTML = 'Click to reveal answer';
+    }
+}
+
+</script>
 {% endblock content %}
