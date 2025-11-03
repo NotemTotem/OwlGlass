@@ -11,9 +11,13 @@ else:
     python_location = venv_dir+'/.venv/Scripts/python.exe'
 python_location = Path(python_location)
 
-def find_accounts(target):
+def find_accounts(target,cap):
     toolscript_location = Path("Toolscripts/accountfinder.py")
-    command = f'''"{python_location}" {toolscript_location} -t "{target} -cap 10"'''
+    if cap:
+        command = f'''"{python_location}" {toolscript_location} -t "{target}" -cap {cap} --development'''
+    else:
+        command = f'''"{python_location}" {toolscript_location} -t "{target}"'''
+    print(command)
     e = os.popen(command)
     output = e.readlines()
     return output
