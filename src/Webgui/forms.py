@@ -100,6 +100,5 @@ class port_scanner_form(FlaskForm):
 
 class fuzzer_form(FlaskForm):
     target = StringField("Target URL", validators=[DataRequired()], render_kw={"placeholder": "Target URL or IP Adress"})
-    depth = StringField("Recursion Depth", validators=[DataRequired()], render_kw={"placeholder": "Depth of recursion"})
     port = StringField("Port", render_kw={"placeholder": "Port of web server"})
-    submit = SubmitField("Submit")
+    depth = StringField("Recursion Depth", validators=[DataRequired()], render_kw={"placeholder": "Depth of recursion"})

@@ -10,13 +10,19 @@
         <div name="block-simple" class="block-simple">
             <div name="left" class="block-header">
                 {% if tool_name == "accountfinder" %}
-                <p class="block-header-text">Accountfinder</p>
+                    <p class="block-header-text">Account Finder</p>
                 {% elif tool_name == "portscan" %}
-                <p class="block-header-text">Port Scanner</p>
+                    <p class="block-header-text">Port Scanner</p>
                 {% elif tool_name == "dnslookup" %}
-                    <p class="block-header-text">DNSLookup</p>
-                
+                    <p class="block-header-text">Dns Scanner</p>
+                {% elif tool_name == "dirfuzz" %}
+                    <p class="block-header-text">Directory Fuzzer</p>                
+                {% elif tool_name == "subfuzz" %}
+                    <p class="block-header-text">Subdirectory Fuzzer</p>
+                {% elif tool_name == "vhostfuzz" %}
+                    <p class="block-header-text">Vhost Fuzzer</p>
                 {% endif %}
+                
             </div>
             <pre class="toolscript-form-pre">
                 <form method="post" class="toolform">
@@ -42,75 +48,17 @@
                     {% endif %}
 
                     {%if tool_name == "portscan"%}
-                        <div>
-                            {{form.target.label(class='form-control-label')}}
-                            {% if form.target.errors %}
-                                {{form.target(class='form-control is-invalid')}}
-                                <div class="invalid-feedback">
-                                {% for error in form.target.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                                </div>
-                            {% else %}
-                                {{form.target(class='form-control')}}
-                            {% endif %}
-                        </div>
-                        <div>
-                        {{form.ports.label(class='form-control-label')}}
-                        {% if form.ports.errors %}
-                            {{form.ports(class='form-control is-invalid')}}
-                            <div class="invalid-feedback">
-                            {% for error in form.target_type.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
-                            </div>
-                            {% else %}
-                                {{form.ports(class='form-control')}}
-                            {% endif %}
-                        </div>
+                        {{render_field(form.target,class='form-control')}}
+                        {{render_field(form.ports,class='form-control')}}
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
                     {%if tool_name == "subfuzz" or tool_name == "dirfuzz" or tool_name == "vhostfuzz"%}
+                        {% for field in form %}
                         <div>
-                            {{form.target.label(class='form-control-label')}}
-                            {% if form.target.errors %}
-                                {{form.target(class='form-control is-invalid')}}
-                                <div class="invalid-feedback">
-                                {% for error in form.target.errors %}
-                                    <span>{{error}}</span>
-                                {% endfor %}
-                                </div>
-                            {% else %}
-                                {{form.target(class='form-control')}}
-                            {% endif %}
+                            {{render_field(field,class='form-control')}}
                         </div>
-                        <div>
-                        {{form.port.label(class='form-control-label')}}
-                        {% if form.port.errors %}
-                            {{form.port(class='form-control is-invalid')}}
-                            <div class="invalid-feedback">
-                            {% for error in form.target_type.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
-                            </div>
-                            {% else %}
-                                {{form.port(class='form-control')}}
-                            {% endif %}
-                        </div>
-                        <div>
-                        {{form.depth.label(class='form-control-label')}}
-                        {% if form.depth.errors %}
-                            {{form.depth(class='form-control is-invalid')}}
-                            <div class="invalid-feedback">
-                            {% for error in form.target_type.errors %}
-                                <span>{{error}}</span>
-                            {% endfor %}
-                            </div>
-                            {% else %}
-                                {{form.depth(class='form-control')}}
-                            {% endif %}
-                        </div>
+                        {% endfor %}
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
