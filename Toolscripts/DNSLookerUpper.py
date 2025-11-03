@@ -3,6 +3,8 @@ import dns.name
 import argparse
 import dns.zone
 from pprint import pprint
+import json
+import re
 
 record_types = []
 record_info = {}
@@ -32,7 +34,13 @@ def queryDns(target_domain, recursion_count, timeout):
             for rdata in answers:
                 result_info.append(rdata.to_text())
                 if int(rdata.rdtype) != 6 and int(rdata.rdtype) != 16 : # if not SOA ::: this is stupid 
-                    new_recursion.append(rdata.to_text())
+                    new_recursion.append(rdata.to_text().lstrip())
+                
+                if int(rdata.rdtype) in [6, 15, 18, 21, 26, 33, 35, 36, 37, 43, 44, 52, 257, 29]:
+                    contaminated_hostname = rdata.to_text()
+                    clean_hostname = re.sub(r'\d+', '', contaminated_hostname)
+                    new_recursion.append(clean_hostname.lstrip())
+
                         
             target_info[record_type] = result_info
             record_info[target_domain] = target_info
@@ -128,7 +136,6 @@ parser.add_argument("-ta", "--TA", action="store_true")
 parser.add_argument("-dlv", "--DLV", action="store_true")
 
 parser.add_argument("-x", "--ALL", action="store_true", help="Set all record types")
-parser.add_argument("-d", "--depth", type=int, help="Usage: -d <depth of sesarch/number of recursions>", default=0)
 parser.add_argument("-t", "--timeout", type=int, help="Usage: -t <number of seconds>", default=3)
 parser.add_argument("--ZONE", action="store_true")
 
@@ -136,7 +143,6 @@ parser.add_argument("--ZONE", action="store_true")
 args = parser.parse_args()
 
 target_domain = args.target
-recursion_count = args.depth
 timeout = args.timeout
 ZONE_MODE = args.ZONE
 
@@ -151,9 +157,10 @@ if args.ALL:
 #remove everything but dns record types
 #make it cleaner later
 first_key = next(iter(arg_dict))
-arg_dict.pop(first_key)
+
+#remove non-dns arguments
+arg_dict.pop(first_key) #target
 arg_dict.popitem() #-x
-arg_dict.popitem() #-r
 arg_dict.popitem() #-t
 arg_dict.popitem() #--ZONE
 
@@ -162,10 +169,16 @@ for arg_name, arg_value in arg_dict.items():
     if arg_value:
         record_types.append(str(arg_name))
 
-queryDns(target_domain, recursion_count, timeout)
+queryDns(target_domain, 1, timeout)
+
 if ZONE_MODE :
     dns_zone_xfer(target_domain)
 
-print(record_info)
+jsonthing = json.dumps(record_info, indent=4)
+
+jsonthing = jsonthing.replace("\\", "")
+print(jsonthing.lstrip())
+
+
 
 

@@ -110,6 +110,11 @@ def main():
         else:
             PORTS.append(int(part))
     PORTS = sorted(set(PORTS))
+    #check that ports are valid
+    for port in PORTS:
+        if port not in range(0, 65536):
+            print("Ports must be in range 0-65535")
+            return
 
     #define blank array so threads can store scan results in order of port
     global results
