@@ -42,8 +42,7 @@ def dnslookup(): #oiafnhoiawhfoihaw
     if form.validate_on_submit():
         target = form.target.data
         dns_record_types = form.my_choices.data
-        depth = form.depth.data
-        response = interfacer.dns_lookup(target, dns_record_types, depth)
+        response = interfacer.dns_lookup(target, dns_record_types)
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))
