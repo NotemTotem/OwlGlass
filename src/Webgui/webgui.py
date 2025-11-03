@@ -100,7 +100,7 @@ def vhost_fuzzer():
         recursion_depth = form.depth.data
         port= form.port.data
         print(target, port)
-        response = interfacer.fuzz_subs(target, recursion_depth, port)
+        response = interfacer.fuzz_vhosts(target, recursion_depth, port)
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))
@@ -119,7 +119,7 @@ def dir_fuzzer():
         recursion_depth = form.depth.data
         port= form.port.data
         print(target, port)
-        response = interfacer.fuzz_subs(target, recursion_depth, port)
+        response = interfacer.fuzz_dirs(target, recursion_depth, port)
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))

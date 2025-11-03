@@ -42,6 +42,7 @@ def fuzz_dirs(target, recursion_depth, port):
     print(command)
     e = os.popen(command)
     output = e.readlines()
+    output=''.join(output).encode('utf-8', 'ignore').decode('utf-8')
     print(output)
     return output
 
@@ -52,15 +53,23 @@ def fuzz_subs(target, recursion_depth, port):
     print(command)
     e = os.popen(command)
     output = e.readlines()
+    #i was getting a decoding error printing output so i had to encode and decode
+    output=''.join(output).encode('utf-8', 'ignore').decode('utf-8')
     print(output)
     return output
 
 def fuzz_vhosts(target, recursion_depth, port):
+<<<<<<< HEAD
+    toolscript_location = Path("Toolscripts/dirfuzz.py")
+    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --subdomain '''
+=======
     toolscript_location = Path("dirfuzz.py")
     command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --vhost '''
+>>>>>>> e6960a971d828d289148d77304217e99f193fb6e
     print(command)
     e = os.popen(command)
     output = e.readlines()
+    output=''.join(output).encode('utf-8', 'ignore').decode('utf-8')
     print(output)
     return output
 

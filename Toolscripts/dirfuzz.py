@@ -58,7 +58,7 @@ def fuzz_sub(host, subdomain, port, recursion_count):
 
             full_url = subdomain+"."+host
 
-            #connect to port
+            #connect to server
             s.connect((full_url, port))
 
             #send get request to recieve a response
@@ -76,6 +76,7 @@ def fuzz_sub(host, subdomain, port, recursion_count):
         return
     except Exception as err:
         print(f"Error occured while fuzzing subdomain: {subdomain}\n {err}\n\n")
+
 def fuzz_vhost(host, vhost, port, recursion_count):
     try:
         #create a socket to connect to port
@@ -86,8 +87,10 @@ def fuzz_vhost(host, vhost, port, recursion_count):
 
             host_header = vhost+"."+host
 
-            #connect to port
-            s.connect((url, port))
+            ip_address = socket.gethostbyname(host)
+
+            #connect to server
+            s.connect((ip_address, port))
 
             #send get request to recieve a response
             s.sendall(f"GET / HTTP/1.0\r\n Host: {host_header}\r\n\r\n".encode())
@@ -97,20 +100,21 @@ def fuzz_vhost(host, vhost, port, recursion_count):
                 code = int(response[9:12])
                 #not found code gets filtered out
                 if code not in range(400, 500):
-                    print(f"\n{full_url} - {code}")
+                    print(f"\n{host_header} - {code}")
+
     #error handling prevents crashing
     except socket.error as err:
-        #if socket error occurs it is likely that the subdomain doesnt exist
+        #if socket error occurs it is likely that the vhost doesnt exist
         return
     except Exception as err:
-        print(f"Error occured while fuzzing subdomain: {subdomain}\n {err}\n\n")
+        print(f"Error occured while fuzzing vhost: {vhost}\n {err}\n\n")
 
 def fuzz_dir(host, path, port, recursion_count):
     try:
         #create a socket to connect to port
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(TIMEOUT)
-            #connect to port
+            #connect to server
             s.connect((host, port))
 
             path = path.strip("\r\n")
