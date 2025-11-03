@@ -1,6 +1,7 @@
 import dns.resolver
 import dns.name
 import argparse
+import dns.zone
 from pprint import pprint
 
 record_types = []
@@ -32,13 +33,30 @@ def queryDns(target_domain, recursion_count, timeout):
                 result_info.append(rdata.to_text())
                 if int(rdata.rdtype) != 6 and int(rdata.rdtype) != 16 : # if not SOA ::: this is stupid 
                     new_recursion.append(rdata.to_text())
-            
+                        
             target_info[record_type] = result_info
             record_info[target_domain] = target_info
 
         for name in new_recursion:
             queryDns(name, recursion_count-1, timeout)
     return
+
+ns_servers = []
+def dns_zone_xfer(address):
+    ns_answer = dns.resolver.query(address, 'NS')
+    for server in ns_answer:
+        print("[*] Found NS: {}".format(server))
+        ip_answer = dns.resolver.query(server.target, 'A')
+        for ip in ip_answer:
+            print("[*] IP for {} is {}".format(server, ip))
+            try:
+                zone = dns.zone.from_xfr(dns.query.xfr(str(ip), address))
+                for host in zone:
+                    print("[*] Found Host: {}".format(host))
+            except Exception as e:
+                print("[*] NS {} refused zone transfer!".format(server))
+                continue
+
 
 parser = argparse.ArgumentParser(
     prog="DNS scraper",
@@ -119,6 +137,7 @@ args = parser.parse_args()
 target_domain = args.target
 recursion_count = args.depth
 timeout = args.timeout
+ZONE_MODE = args.ZONE
 
 arg_dict = (vars(args))
 
@@ -141,6 +160,7 @@ for arg_name, arg_value in arg_dict.items():
         record_types.append(str(arg_name))
 
 queryDns(target_domain, recursion_count, timeout)
+dns_zone_xfer(target_domain)
 
 print(record_info)
 
