@@ -36,20 +36,29 @@
                     {%elif tool_name == "dnslookup"%}
                         <div>
                             {{render_field(form.target,class='form-control')}}
+                        </div>
+
+                        <div style="margin-bottom:8px">
                             {{form.my_choices.label(class='form-control-label')}}
                             <div style="overflow-y: scroll;height: 200px;">
                                 {{render_field(form.my_choices,show_label=False)}}
                             </div>
-                            
+                        </div>
+                        <div>
                             {{render_field(form.depth,class='form-control')}}
                         </div>
+
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
 
                     {%if tool_name == "portscan"%}
-                        {{render_field(form.target,class='form-control')}}
-                        {{render_field(form.ports,class='form-control')}}
+                        <div>
+                            {{render_field(form.target,class='form-control')}}
+                        </div>
+                        <div>
+                            {{render_field(form.ports,class='form-control')}}
+                        </div>
                         <!-- {{form.submit}} -->
                         <button class="btn btn-primary" id="tool-sub-btn"style="margin-top:1em ;">Submit</button>
                     {% endif %}
