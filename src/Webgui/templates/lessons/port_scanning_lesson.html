@@ -16,22 +16,38 @@
 </iframe>
 
 <p>What are ports</p>
-<p>Ports are the way we interact with services online such as HTTP/s, SSH, SMB. If we can scan the services on these ports we can sometimes interact with parts of the system that are home to vulnerabilities or sensitive data. A computer has 65535 ports when it is connected to the network, usually these ports are not open meaning that no service is running on them and we can not interact with the ports. A port scanner allows us to scan any ports we are interested in and use this information to discover different ways we can interact with a computer. This is part of increasing our attack surface.</p>
-<p>What is an attack surface?</p>
-<p>Think of an attack surface like the size of a target in a video game. The larger it is the easier more we can shoot at and the higher the chance we have of hitting the target. Our attack surface is the number of features, or services we can test to potentially attack a target. For example if our target has multiple web servers, multiple applications, or multiple network devices, these assets are all part of our attack surface.</p>
-<p>Initially a larger attack surface might seem overwhelming but in practice it means that there is more code that could potentially have mistakes, or oversights. Most defensive security experts are focused on minimising the attack surface. They do this by ensuring that only the functionality that a user needs is what is publicly accessible. For example hosting a staff storage server on a publicly accessible IP address means that hackers could test for vulnerabilities and potentially find one. If they instead host it on a private network then hackers don't even have a chance to attack the staff server.</p>
-<p>Increasing our attack surface</p>
-<p>Before we can hack anything we need to try to generate a large attack surface and then systematically begin testing each part of that attack surface. Learning which parts of the attack surface are more likely to contain vulnerabilities is something that can only come with practice but you will develop naturally over time. Learning to test an entire attack surface is much better way to learn a wide range of skills and&nbsp;</p>
-<p>Activity&nbsp;</p>
+<p>Ports are the way we interact with services online such as HTTP/s, SSH, SMB. If we can scan the services on these ports we can sometimes interact with parts of the system that are home to vulnerabilities or sensitive data. A computer has 65535 ports when it is connected to the network, usually these ports are not open meaning that no service is running on them and we can not interact with the ports. A port scanner allows us to scan any ports we are interested in and use this information to discover different ways we can interact with a computer. This is part of increasing our attack surface.</p><br>
+<h2>What is an attack surface?</h2><br>
+<p>Think of an attack surface like the size of a target in a video game. The larger it is the easier more we can shoot at and the higher the chance we have of hitting the target. Our attack surface is the number of features, or services we can test to potentially attack a target. For example if our target has multiple web servers, multiple applications, or multiple network devices, these assets are all part of our attack surface.</p><br>
+<p>Initially a larger attack surface might seem overwhelming but in practice it means that there is more code that could potentially have mistakes, or oversights. Most defensive security experts are focused on minimising the attack surface. They do this by ensuring that only the functionality that a user needs is what is publicly accessible. For example hosting a staff storage server on a publicly accessible IP address means that hackers could test for vulnerabilities and potentially find one. If they instead host it on a private network then hackers don't even have a chance to attack the staff server.</p><br>
+<h2>Increasing our attack surface</h2> <br>
+<p>Before we can hack anything we need to try to generate a large attack surface and then systematically begin testing each part of that attack surface. Learning which parts of the attack surface are more likely to contain vulnerabilities is something that can only come with practice but you will develop naturally over time. Learning to test an entire attack surface is much better way to learn a wide range of skills.&nbsp;</p><br>
+<h2>Activity&nbsp;</h2> <br>
 <p>Look for a bug bounty program on <a href="http://hackerone.com">hackerone.com</a> (or you can use <a href="http://google.com">google.com</a>) and then test the port scanner tool on their server. Familiarise yourself with the tool and then try to answer the following questions.</p>
 <p>How many open ports does <a href="http://google.com">google.com</a> have?</p>
-<p><strong>2</strong></p>
+<p><strong id="2" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p><br>
 <p>What service is running on port 443 of google.com?</p>
-<p><strong>HTTPS</strong></p>
+<p><strong id="HTTPS" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p><br>
 <p>What type of server is <a href="http://google.com">google.com</a> running?</p>
-<p><strong>GWS</strong></p>
+<p><strong id="GWS" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p>
 <p><br /><br /><br />
 
         </p>
     </div>
+
+
+<script>
+document.getElementsByClass('answer').style.display = 'none'
+
+function toggleText(element) {
+    console.log(element)
+    if (element.innerHTML === 'Click to reveal answer') {
+        element.innerHTML = element.id;
+    } 
+    else {
+        element.innerHTML = 'Click to reveal answer';
+    }
+}
+
+</script>
 {% endblock content %}
