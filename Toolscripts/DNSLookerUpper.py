@@ -48,6 +48,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("target")
 
+parser.add_argument("--ZONE", action="store_true")
 parser.add_argument("-a", "--A", action="store_true")
 parser.add_argument("-ns", "--NS", action="store_true")
 parser.add_argument("-md", "--MD", action="store_true")
