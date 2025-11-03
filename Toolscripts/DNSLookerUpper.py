@@ -170,7 +170,11 @@ queryDns(target_domain, recursion_count, timeout)
 if ZONE_MODE :
     dns_zone_xfer(target_domain)
 
-jsonthing = json.dumps(record_info)
-print(json.loads(jsonthing))
+jsonthing = json.dumps(record_info, indent=4)
+
+jsonthing = jsonthing.replace("\\", "")
+print(jsonthing)
+
+
 
 
