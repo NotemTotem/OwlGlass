@@ -26,7 +26,7 @@ def accountfinder():
     if form.validate_on_submit():
         target = form.target.data
         cap = form.cap.data
-        response = interfacer.find_accounts(target,cap)
+        response = interfacer.find_accounts(target,cap )
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))
