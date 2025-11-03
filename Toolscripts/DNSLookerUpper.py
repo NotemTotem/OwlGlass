@@ -146,6 +146,7 @@ arg_dict = (vars(args))
 if args.ALL:
     for key in arg_dict.keys():
         arg_dict[key]= True
+        arg_dict["--ZONE"] = False
 
 #remove everything but dns record types
 #make it cleaner later
@@ -162,7 +163,8 @@ for arg_name, arg_value in arg_dict.items():
         record_types.append(str(arg_name))
 
 queryDns(target_domain, recursion_count, timeout)
-dns_zone_xfer(target_domain)
+if ZONE_MODE :
+    dns_zone_xfer(target_domain)
 
 print(record_info)
 

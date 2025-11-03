@@ -19,11 +19,10 @@ class AccountfinderForm(FlaskForm):
 
 class dnslookupForm(FlaskForm):
 
-    
-
     target = StringField("Target", validators=[DataRequired()], render_kw={"placeholder": "Target website or subdomain"})
     record_type_choices = [
         ("ALL", "ALL"),
+        ("ZONE", "ZONE MODE"),
         ("A", "A (Host Address)"),
         ("NS", "NS (Name Server)"),
         ("MD", "MD (Mail Destination )"),
@@ -88,6 +87,9 @@ class dnslookupForm(FlaskForm):
     my_choices = MultiCheckboxField("Select DNS record types", choices=record_type_choices, coerce=str)
     submit = SubmitField("Submit query")
     depth = StringField("Search Depth", render_kw={"placeholder": "Depth of Recursion"})
+    if depth == " ":
+        depth = "1"
+    
 
 
 class port_scanner_form(FlaskForm):
