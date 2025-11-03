@@ -3,6 +3,7 @@ import dns.name
 import argparse
 import dns.zone
 from pprint import pprint
+import json
 
 record_types = []
 record_info = {}
@@ -165,9 +166,11 @@ for arg_name, arg_value in arg_dict.items():
         record_types.append(str(arg_name))
 
 queryDns(target_domain, recursion_count, timeout)
+
 if ZONE_MODE :
     dns_zone_xfer(target_domain)
 
-print(record_info)
+jsonthing = json.dumps(record_info)
+print(json.loads(jsonthing))
 
 
