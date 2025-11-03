@@ -187,10 +187,12 @@ p {
 
 #toolscripts_container {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
 }
 
 .toolcard {
+    flex: 0 0 calc(33.3333% - 1rem); 
   display: flex;
   flex-direction: column;
   padding: 5px;
