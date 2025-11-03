@@ -20,9 +20,7 @@ def accountfinder():
     #Validating form upon submission
     if form.validate_on_submit():
         target = form.target.data
-        target_type = form.target_type.data
-        print(target,target_type)
-        response = interfacer.find_accounts(target,target_type)
+        response = interfacer.find_accounts(target)
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))
@@ -37,13 +35,15 @@ def accountfinder():
     #     if response:
     #         return response,200
     return render_template('toolscripts/accountfinder.html',form=form)
+
 @app.route('/toolscripts/dnslookup', methods=["GET", "POST"])
 def dnslookup(): #oiafnhoiawhfoihaw
     form = dnslookupForm()
     if form.validate_on_submit():
         target = form.target.data
         dns_record_types = form.my_choices.data
-        response = interfacer.dns_lookup(target, dns_record_types)
+        depth = form.depth.data
+        response = interfacer.dns_lookup(target, dns_record_types, depth)
         response_formatted = []
         for i in response:
             response_formatted.append(i.replace('\n','<br>'))

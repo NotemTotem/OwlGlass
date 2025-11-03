@@ -1,7 +1,7 @@
 [project]
 name = "owlglass"
 version = "0.1"
-dependencies = ["requests","flask","flask-wtf", "dnspython"]
+dependencies = ["requests","flask","flask-wtf", "dnspython","colorama"]
 
 [build-system]
 requires = ["setuptools>=75.8.0"]

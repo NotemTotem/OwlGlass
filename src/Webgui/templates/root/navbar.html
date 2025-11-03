@@ -1,18 +1,18 @@
 
 <nav id="nav" class="overlay">
+    <div style="display: flex; align-items: center; position:relative;height: 80%;">
         <div class="logo">
             <a href="{{url_for('index')}}">
                 {% from "root/logo.html" import logo %}
                 {{logo(style="height:32px")}}
-                <p>Owlglass</p>
+                <p class="nav-p">Owlglass</p>
             </a>
         </div>
-
+        <div name="seperator" class="seperator"></div>
         <ul class="menu">
             <li>
-                <a href="{{url_for('index')}}"><p>Help</p></a>
+                <a href="{{url_for('index')}}"><p class="nav-p">Help</p></a>
             </li>
         </ul>
-
-
-    </nav>
+    </div>
+</nav>

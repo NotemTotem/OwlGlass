@@ -14,7 +14,6 @@ def queryDns(target_domain, recursion_count, timeout):
         target_info = {}
         for record_type in record_types:
             # Perform DNS lookup for the specified domain and record type
-            print(record_type)
             result_info = []
             try:
                 answers = resolver.resolve(target_domain, record_type)
@@ -110,14 +109,14 @@ parser.add_argument("-ta", "--TA", action="store_true")
 parser.add_argument("-dlv", "--DLV", action="store_true")
 
 parser.add_argument("-x", "--ALL", action="store_true", help="Set all record types")
-parser.add_argument("-r", "--recurse", type=int, help="Usage: -r <number of recursions>", default=0)
+parser.add_argument("-d", "--depth", type=int, help="Usage: -d <depth of sesarch/number of recursions>", default=0)
 parser.add_argument("-t", "--timeout", type=int, help="Usage: -t <number of seconds>", default=3)
 
 # Set the target domain and record type
 args = parser.parse_args()
 
 target_domain = args.target
-recursion_count = args.recurse
+recursion_count = args.depth
 timeout = args.timeout
 
 arg_dict = (vars(args))

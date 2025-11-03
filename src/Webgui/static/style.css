@@ -169,6 +169,17 @@ p {
     flex-direction: column;
 }
 
+.block-simple pre form div dt {
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+}
+
+.block-simple pre form div dd {
+    display: flex;
+    flex-direction: column;
+}
+
 .tool-container {
     display: flex;
     justify-content: space-around;
@@ -190,3 +201,22 @@ p {
 .toolcard_description {
   font-size: 14px
 }
+
+/* [type="checkbox"] {
+} */
+.lesson_container {
+    display: flex;
+    flex-direction: column;
+}
+/* dnslookup checkbox stuff */
+/* this targets the container containing all the checkboxes */
+dd ul {
+    list-style: none;
+    padding: 5px!important;
+    margin: 0!important;
+}
+/* editing this will change checkboxes */
+dd ul li input {
+    cursor: pointer;
+}
+/* end of dnslookup checkbox stuff */
