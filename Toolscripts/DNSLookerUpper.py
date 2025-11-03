@@ -146,7 +146,7 @@ arg_dict = (vars(args))
 if args.ALL:
     for key in arg_dict.keys():
         arg_dict[key]= True
-        arg_dict["--ZONE"] = False
+        arg_dict["ZONE"] = False
 
 #remove everything but dns record types
 #make it cleaner later
