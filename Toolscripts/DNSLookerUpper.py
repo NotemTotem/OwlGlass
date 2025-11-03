@@ -66,7 +66,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("target")
 
-parser.add_argument("--ZONE", action="store_true")
+
 parser.add_argument("-a", "--A", action="store_true")
 parser.add_argument("-ns", "--NS", action="store_true")
 parser.add_argument("-md", "--MD", action="store_true")
@@ -130,6 +130,7 @@ parser.add_argument("-dlv", "--DLV", action="store_true")
 parser.add_argument("-x", "--ALL", action="store_true", help="Set all record types")
 parser.add_argument("-d", "--depth", type=int, help="Usage: -d <depth of sesarch/number of recursions>", default=0)
 parser.add_argument("-t", "--timeout", type=int, help="Usage: -t <number of seconds>", default=3)
+parser.add_argument("--ZONE", action="store_true")
 
 # Set the target domain and record type
 args = parser.parse_args()
@@ -153,6 +154,7 @@ arg_dict.pop(first_key)
 arg_dict.popitem() #-x
 arg_dict.popitem() #-r
 arg_dict.popitem() #-t
+arg_dict.popitem() #--ZONE
 
 #append present flags to list
 for arg_name, arg_value in arg_dict.items():
