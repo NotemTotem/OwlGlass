@@ -1,0 +1,56 @@
+{% extends '/root/base.html' %}
+{% block title %}Accountfinder - lesson{% endblock title %}
+
+{% block content %}
+    <div class="learn_container">
+        <p>
+
+
+<p><strong>Directory Fuzzing</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Learn how to discover new web pages and expand our attack surface by fuzzing for directories.</span></p>
+<p>&nbsp;</p>
+<p><strong>Key concepts&nbsp;</strong></p>
+<p><span style="font-weight: 400;">- Enumeration</span></p>
+<p><span style="font-weight: 400;">- Scanning</span></p>
+<p><span style="font-weight: 400;">- Information Gathering</span></p>
+<p><span style="font-weight: 400;">- Web App testing</span></p>
+<p><span style="font-weight: 400;">- Fuzzing</span></p>
+<p>&nbsp;</p>
+<p><strong>Web directories</strong></p>
+<p><span style="font-weight: 400;">Web directories are like a local filesystem but for a website. We can use fuzzing techniques similar to the subdomain and vhost fuzzing module to change the page we are requesting.</span></p>
+<p><br /><br /></p>
+<p><span style="font-weight: 400;">We add to the start line and tell the server what page we are looking for. This becomes our payload and is what we change for each request we send.</span></p>
+<p>&nbsp;</p>
+<p><strong>Why is discovering web pages important?</strong></p>
+<p><span style="font-weight: 400;">Web discovery is important because it means we can find new pages in an application thus increasing our attack surface. New pages can contain sensitive information, or new functionality, both of which are very important to discover. Making sure we have a comprehensive list of all the pages we can find, means that we won&rsquo;t miss any information or functionality when it comes to testing.</span></p>
+<p><br /><br /></p>
+<p><strong>Activity&nbsp;</strong></p>
+<p><span style="font-weight: 400;">Look for a bug bounty program on </span><a href="http://hackerone.com"><span style="font-weight: 400;">hackerone.com</span></a><span style="font-weight: 400;"> (or you can use </span><a href="http://google.com"><span style="font-weight: 400;">google.com</span></a><span style="font-weight: 400;">) and then test the directory fuzzer tool on their URL. Familiarise yourself with the tool and then try to answer the following questions.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">What response code is found for the page robots.txt?</span></p>
+<p><strong id="200" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">What xml page was found that might help us find a map of the google website?</span></p>
+<p><strong id="Sitemap.xml" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">What page is found that begins with </span><a href="http://google.com/.well-known/"><span style="font-weight: 400;">google.com/.well-known/</span></a><span style="font-weight: 400;">___________ ?</span></p>
+<p><strong id="google.com/.well-known/security.txt" onclick="toggleText(this)" onmouseover="this.style.cursor='pointer'">Click to reveal answer</strong></p>
+<p>&nbsp;</p>        </p>
+    </div>
+
+<script>
+document.getElementsByClass('answer').style.display = 'none'
+
+function toggleText(element) {
+    console.log(element)
+    if (element.innerHTML === 'Click to reveal answer') {
+        element.innerHTML = element.id;
+    } 
+    else {
+        element.innerHTML = 'Click to reveal answer';
+    }
+}
+
+</script>
+{% endblock content %}
