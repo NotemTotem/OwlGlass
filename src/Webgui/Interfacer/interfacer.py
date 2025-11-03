@@ -13,7 +13,7 @@ python_location = Path(python_location)
 
 def find_accounts(target):
     toolscript_location = Path("Toolscripts/accountfinder.py")
-    command = f'''{python_location} {toolscript_location} -t "{target} -cap 10"'''
+    command = f'''"{python_location}" {toolscript_location} -t "{target} -cap 10"'''
     e = os.popen(command)
     output = e.readlines()
     return output
@@ -21,7 +21,7 @@ def find_accounts(target):
 
 def scan_ports(target, ports):
     toolscript_location = Path("Toolscripts/portscan.py")
-    command = f'''{python_location} {toolscript_location} -a "{target}" -p "{ports}"'''
+    command = f'''"{python_location}" {toolscript_location} -a "{target}" -p "{ports}"'''
     e = os.popen(command)
     output = e.readlines()
     print(output)
@@ -40,7 +40,7 @@ def dns_lookup(target, dns_records, depth):
 
 def fuzz_dirs(target, recursion_depth, port):
     toolscript_location = Path("Toolscripts/dirfuzz.py")
-    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} '''
+    command = f'''"{python_location}" {toolscript_location} -u {target} -p {port} -d {recursion_depth} '''
     print(command)
     e = os.popen(command)
     output = e.readlines()
@@ -51,7 +51,7 @@ def fuzz_dirs(target, recursion_depth, port):
 
 def fuzz_subs(target, recursion_depth, port):
     toolscript_location = Path("Toolscripts/dirfuzz.py")
-    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --subdomain'''
+    command = f'''"{python_location}" {toolscript_location} -u {target} -p {port} -d {recursion_depth} --subdomain'''
     print(command)
     e = os.popen(command)
     output = e.readlines()
@@ -62,7 +62,7 @@ def fuzz_subs(target, recursion_depth, port):
 
 def fuzz_vhosts(target, recursion_depth, port):
     toolscript_location = Path("Toolscripts/dirfuzz.py")
-    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --vhost '''
+    command = f'''"{python_location}" {toolscript_location} -u {target} -p {port} -d {recursion_depth} --vhost '''
     print(command)
     e = os.popen(command)
     output = e.readlines()
