@@ -28,12 +28,12 @@ def web_check(target_object,website):
         target = target_object["target"]
     else:
         parser.debug_print(f"targetType of {target_object['targetType']!r} not present in web_check.")
-    
+
     if "headers" in website:
         headers = website['headers']
     else:
         headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0",}
-    
+
     url = website['url'].replace('{}',target)
 
     if website['errorType'] == 'status_code':
@@ -87,7 +87,7 @@ def web_check(target_object,website):
     else:
         parser.debug_print(f"Errortype of {website['errorType']!r} not currently implemented.")
 
-    
+
 def return_target_entry(target_string):
     #Check if target string is an email
     if re.match("[^@]+@[^@]+\\.[^@]+",target_string):
@@ -119,20 +119,20 @@ def main():
     if args.w:
         debug_filters['websites'] = args.w
 
-    #Parsing arguements 
+    #Parsing arguements
     if args.t and len(args.t) >1:
         parser.error("Please only provide one email or username for now.")
 
     if not args.t and not WEBSITECHECK:
         parser.error('Please specify a username or email as the target.')
     if args.cap:
-        #caps the number of websites which can be queried. 
+        #caps the number of websites which can be queried.
         webcap = int(args.cap)
     else:
         webcap = None
     #Loading in web objects from json file.
     with open(Path('static/resources/accountfinder/data.json')) as json_file:
-        website_objects = json.load(json_file)  
+        website_objects = json.load(json_file)
         #The first entry is just a schema object so we skip this.
         website_objects.pop('$schema')
 
@@ -157,7 +157,7 @@ def main():
                     if key not in keys_to_remove:
                         keys_to_remove.append(key)
 
-    
+
     for key in keys_to_remove:
         website_objects.pop(key)
 
@@ -170,12 +170,12 @@ def main():
         index+=1
         parser.debug_print(f"Index:{index}, Website:{key}")
         #This lets us set a max number of websites to check before printing the results.
-        
+
         if webcap and index > webcap:
             break
 
         if 'isNSFW' in website:
-            #Some websites are NSFW as I got the json dataset from an opensource project. As such we must skip these.  
+            #Some websites are NSFW as I got the json dataset from an opensource project. As such we must skip these.
             continue
         if WEBSITECHECK:
             target_string = website['username_claimed']
@@ -203,9 +203,6 @@ def main():
         pass
     else:
         length = 60
-        print('\n'+'-'*length)
-        print(f'\n{" "*((length//2)-(len('FINAL REPORT')//2))}FINAL REPORT\n')
-        print('-'*length)
         if not WEBSITECHECK:
             print(f"\n{' '*((length//2)-len('- USER INFO -')//2)}- USER INFO -")
             print(f"Target: {report['targets'][0]['target']!r}")
@@ -215,20 +212,20 @@ def main():
         for website in report['checks']:
             if WEBSITECHECK:
                 if website["accountFound"] == False:
-                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")
             else:
                 if website["accountFound"] == True:
-                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
-        
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")
+
         if WEBSITECHECK:
             print(successful_websites)
         for website in report['checks']:
             if WEBSITECHECK:
                 if website["accountFound"] == True:
-                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
-            else:   
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")
+            else:
                 if website["accountFound"] == False:
-                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")    
+                    print(f"Account found: {website['accountFound']}\nWebsite: {website['website']['urlMain']}\nAttempted url: {website['attemptedUrl']}")
 parser.add_argument('-t',action='append',help='Target string to find accounts under. Can be an email or username (required:true)')
 parser.add_argument('-cap',help="Specify a non-zero positive number as a limit to cap number of websites the target string will be checked against (required:false)")
 parser.add_argument('-w',action ='append')
