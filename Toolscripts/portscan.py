@@ -43,6 +43,8 @@ def grab_banner(s, port):
     #if there is a known probe then send a request that will probe a banner response
     if PORT_PROBE_DICTIONARY.get(port):
         s.sendall(PORT_PROBE_DICTIONARY.get(port)[1]) #[1] is the banner probe
+    else:
+        s.sendall(b"\x00")
 
     try:
         #try to grab banner in chunks
@@ -77,15 +79,19 @@ def scan_port(address, port):
             if open == 0:
                 status = (f"Open")
 
+                if PORT_PROBE_DICTIONARY.get(port):
+                    service_guess = PORT_PROBE_DICTIONARY.get(port)[0]
+                else:
+                    service_guess = "Unkown"
                 #store results
                 if JSON:
                     results[PORTS.index(port)] = json.dumps(
                     {"port":port,
                     "status":status,
                     "banner":grab_banner(s, port),
-                    "service guess":PORT_PROBE_DICTIONARY.get(port)[0]})
+                    "service guess":service_guess})
                 if not JSON:
-                    results[PORTS.index(port)] = f"Port {port} is open\n{PORT_PROBE_DICTIONARY.get(port)[0]}\n {grab_banner(s, port)}\n\n"
+                    results[PORTS.index(port)] = f"Port {port} is open\n{service_guess}\n {grab_banner(s, port)}\n\n"
 
     #error handling prevents crashing
     except socket.error as err:

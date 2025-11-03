@@ -17,7 +17,7 @@ echo -
 powershell -Command "Write-Host 'Requirements file found. Compiling and syncing packages.' -ForegroundColor Green"
 echo -
 echo -
-.venv\Scripts\pip.exe install .  
+.venv\Scripts\pip.exe install .
 ) else (
 echo -
 echo -
@@ -28,4 +28,4 @@ echo -
 powershell -Command "Write-Host 'Setup complete.' -ForegroundColor Green"
 echo -
 echo -
-cmd /k ".venv\Scripts\python.exe src\Webgui\webgui.py" 
+cmd /k ".venv\Scripts\python.exe src\Webgui\webgui.py"
