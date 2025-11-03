@@ -12,11 +12,10 @@ echo -
 python -m venv .venv
 )
 if exist .venv\Scripts\ (
-  set "venv_path=%CD%\.venv\Scripts" 
+  set "venv_path=.venv\Scripts" 
 ) else (
-  set "venv_path=%CD%\.venv\bin" 
+  set "venv_path=.venv\bin" 
 )
-
 if exist pyproject.toml (
 echo -
 echo -
@@ -34,5 +33,4 @@ echo -
 powershell -Command "Write-Host 'Setup complete.' -ForegroundColor Green"
 echo -
 echo -
-set "venv_path=%CD%"
-cmd /k "%venv_path%\python.exe src\Webgui\webgui.py" 
+cmd /k "%venv_path%\python.exe src\Webgui\webgui.py"

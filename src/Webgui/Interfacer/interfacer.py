@@ -59,13 +59,8 @@ def fuzz_subs(target, recursion_depth, port):
     return output
 
 def fuzz_vhosts(target, recursion_depth, port):
-<<<<<<< HEAD
-    toolscript_location = Path("Toolscripts/dirfuzz.py")
-    command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --subdomain '''
-=======
     toolscript_location = Path("dirfuzz.py")
     command = f'''{python_location} {toolscript_location} -u {target} -p {port} -d {recursion_depth} --vhost '''
->>>>>>> e6960a971d828d289148d77304217e99f193fb6e
     print(command)
     e = os.popen(command)
     output = e.readlines()
