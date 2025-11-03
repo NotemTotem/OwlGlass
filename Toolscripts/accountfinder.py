@@ -202,7 +202,7 @@ def main():
     if JSON_ONLY:
         pass
     else:
-        length = 100
+        length = 60
         print('\n'+'-'*length)
         print(f'\n{" "*((length//2)-(len('FINAL REPORT')//2))}FINAL REPORT\n')
         print('-'*length)

@@ -121,7 +121,3 @@ nav a:hover{
     text-align: center;
     width: 100%;
 }
-
-#output-text {
-    overflow: scroll;
-}

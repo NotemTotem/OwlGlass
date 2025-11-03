@@ -114,7 +114,7 @@ p {
 
 /* block */
 .block-simple {
-    height: 100%;
+    height: fit-content;
     --border:1px solid light-dark(#c3c7cb, #51565d);
     border:1px solid light-dark(#c3c7cb, #51565d);
     border-radius: 0.25rem;
@@ -187,10 +187,12 @@ p {
 
 #toolscripts_container {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
 }
 
 .toolcard {
+    flex: 0 0 calc(33.3333% - 1rem); 
   display: flex;
   flex-direction: column;
   padding: 5px;
@@ -266,9 +268,9 @@ dd ul li input {
 }
 /* end of dnslookup checkbox stuff */
 
-#toolscript_output {
+/* #toolscript_output {
     overflow-y: scroll;
-}
+} */
 
 .learn_container {
     margin-left: 10%;
