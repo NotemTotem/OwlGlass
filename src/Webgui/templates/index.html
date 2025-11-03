@@ -11,8 +11,107 @@
       </section>
       <section name="middle" style="width: 100%; height: 100%;display: flex;flex-direction: column;">
         <div class="lesson_container">
-          <section name="top"></section>
-          <section name="middle"></section>
+          <a class="lesson" href="{{url_for('lesson_introduction')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;">1</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>Intro to cybersecurity</h3>
+            </div>
+            <p class="description">
+              What is cybersecurity? And what will Owlglass teach you?
+            </p>
+          </a>
+
+          <a class="lesson" href="{{url_for('lesson_accountfinder')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;">2</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>Finding accounts</h3>
+            </div>
+            <p class="description">
+              Learn how to build a profile of a person using public information and understand why such tools are used by cyber criminals to manipulate individuals and businesses into giving sensitive information.
+            </p>
+          </a>
+
+          <a class="lesson" href="{{url_for('lesson_portscan')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;">3</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>Port Scanning</h3>
+            </div>
+            <p class="description">
+              Learn the first steps of enumerating any target. You will learn how to scan ports on a target server to understand the services that are running.
+
+            </p>
+          </a>
+          <a class="lesson" href="{{url_for('lesson_subvfuz')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;">4</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>Subdomain and vhost fuzzing</h3>
+            </div>
+            <p class="description">
+              Learn how to discover new web functionalities and further expand our attack surface by fuzzing for subdomains and vhosts. 
+            </p>
+          </a>
+          <a class="lesson" href="{{url_for('lesson_dirfuzz')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;">5</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>Directory fuzzing</h3>
+            </div>
+            <p class="description">
+              Learn how to discover new web pages and expand our attack surface by fuzzing for directories.
+            </p>
+          </a>
+          <a class="lesson" href="{{url_for('lesson_dns')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;">6</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>DNS Lookup</h3>
+            </div>
+            <p class="description">
+              Learn how to use DNS to find target infrastructure.
+            </p>
+          </a>
+          <a class="lesson" href="{{url_for('lesson_whereto')}}">
+            <div class="stage">
+              <div class="stage-2">
+                <p style="font-size: 80px;color: var(--primary-text);">7</p>
+              </div>
+              
+            </div>
+            <div class="title">
+              <h3>Where to keep learning</h3>
+            </div>
+            <p class="description">
+              Learn about some ways in which you can continue your cyber journey.
+            </p>
+          </a>
         </div>
       </section>
 

@@ -207,7 +207,52 @@ p {
 .lesson_container {
     display: flex;
     flex-direction: column;
+    gap: 1.2rem;
+    animation: 0.3s linear fadeIn;
 }
+
+.lesson {
+    cursor: pointer;
+    -moz-box-align: center;
+    align-items: center;
+    padding: 0.8rem 1.6rem 0.8rem 1.2rem;
+    background-color: var(--secondary-background);
+    border-radius: 0.8rem;
+    color: var(--primary-text);
+    display: grid;
+    gap: 0.6rem 1.8rem;
+    grid-template-columns: 6.4rem 1fr 3.2rem;
+    grid-template-areas: "image title       button" "image description button";
+    text-decoration: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.stage {
+    grid-area: image;
+}
+
+.stage-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    grid-area:title;
+    display: flex;
+    -moz-box-pack: start;
+    justify-content: start;
+    align-self: flex-end;
+    gap: 0.8rem;
+}
+
+.description {
+    grid-area: description;
+    align-self:flex-start;
+    color: rgb(82, 90, 106);
+    line-height: 2rem;
+}
+
 /* dnslookup checkbox stuff */
 /* this targets the container containing all the checkboxes */
 dd ul {
@@ -223,4 +268,9 @@ dd ul li input {
 
 #toolscript_output {
     overflow-y: scroll;
+}
+
+.learn_container {
+    margin-left: 10%;
+    margin-right: 10%;
 }

@@ -128,6 +128,28 @@ def dir_fuzzer():
 
     return render_template('toolscripts/directoryfuzz.html', form=form)
 
+
+@app.route('/lessons/introduction')
+def lesson_introduction():
+    return render_template('lessons/introduction_lesson.html')
+@app.route('/lessons/accountfinder')
+def lesson_accountfinder():
+    return render_template('lessons/accountfinder_lesson.html')
+@app.route('/lessons/portscan')
+def lesson_portscan():
+    return render_template('lessons/port_scanning_lesson.html')
+@app.route('/lessons/subfuz')
+def lesson_subvfuz():
+    return render_template('lessons/subdomain_vhost_lesson.html')
+@app.route('/lessons/dirfuzz')
+def lesson_dirfuzz():
+    return render_template('lessons/directory_fuzzing_lesson.html')
+@app.route('/lessons/dns')
+def lesson_dns():
+    return render_template('lessons/dns_lesson.html')
+@app.route('/lessons/whereto')
+def lesson_whereto():
+    return render_template('lessons/whereto_lesson.html')
 @app.route('/test')
 def test():
     return "2223232132"
